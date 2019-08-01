@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var constants_1 = require("./constants");
-exports.make = function (fn) {
-    var required = false;
-    var nullable = false;
-    var convert = false;
-    var defaultValue;
+exports.make = function (fn, optional, nullable, convert, defaultValue) {
+    if (optional === void 0) { optional = false; }
+    if (nullable === void 0) { nullable = false; }
+    if (convert === void 0) { convert = false; }
+    if (defaultValue === void 0) { defaultValue = undefined; }
     var handler = (function (payload) {
         if (nullable && payload === null) {
             return null;
@@ -14,7 +14,7 @@ exports.make = function (fn) {
             if (defaultValue) {
                 return defaultValue;
             }
-            else if (required) {
+            else if (!optional) {
                 throw new Error(constants_1.ERR_NO_VALUE);
             }
             else {
@@ -24,28 +24,42 @@ exports.make = function (fn) {
         return fn(payload, convert);
     });
     Object.defineProperties(handler, {
-        r: {
+        o: {
             get: function () {
-                required = true;
-                return handler;
+                return exports.make(fn, true, nullable, convert, defaultValue);
+            }
+        },
+        optional: {
+            value: function (optional) {
+                if (optional === void 0) { optional = true; }
+                return exports.make(fn, optional, nullable, convert, defaultValue);
             }
         },
         n: {
             get: function () {
-                nullable = true;
-                return handler;
+                return exports.make(fn, optional, true, convert, defaultValue);
+            }
+        },
+        nullable: {
+            value: function (nullable) {
+                if (nullable === void 0) { nullable = true; }
+                return exports.make(fn, optional, nullable, convert, defaultValue);
             }
         },
         c: {
             get: function () {
-                convert = true;
-                return handler;
+                return exports.make(fn, optional, nullable, true, defaultValue);
+            }
+        },
+        convert: {
+            value: function (convert) {
+                if (convert === void 0) { convert = true; }
+                return exports.make(fn, optional, nullable, convert, defaultValue);
             }
         },
         d: {
             value: function (defaultValue) {
-                defaultValue = defaultValue;
-                return handler;
+                return exports.make(fn, optional, nullable, convert, defaultValue);
             }
         }
     });

@@ -8,5 +8,5 @@ exports.handleString = function (payload, convert) {
     }
     return (payload || "").toString();
 };
-exports.string = function () { return make_1.make(exports.handleString); };
+exports.string = function (optional, nullable, convert, defaultValue) { return make_1.make(exports.handleString, optional, nullable, convert, defaultValue); };
 //# sourceMappingURL=string.js.map

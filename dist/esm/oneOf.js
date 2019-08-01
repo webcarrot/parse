@@ -10,5 +10,5 @@ export const handleOnOf = (payload, types) => {
     throw new Error(ERR_INVALID_VALUE);
 };
 export const makeOnOf = (types) => (payload) => handleOnOf(payload, types);
-export const oneOf = (types) => make(makeOnOf(types));
+export const oneOf = (types, optional, nullable, convert, defaultValue) => make(makeOnOf(types), optional, nullable, convert, defaultValue);
 //# sourceMappingURL=oneOf.js.map

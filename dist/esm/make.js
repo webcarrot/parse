@@ -1,9 +1,5 @@
 import { ERR_NO_VALUE } from "./constants";
-export const make = (fn) => {
-    let required = false;
-    let nullable = false;
-    let convert = false;
-    let defaultValue;
+export const make = (fn, optional = false, nullable = false, convert = false, defaultValue = undefined) => {
     const handler = ((payload) => {
         if (nullable && payload === null) {
             return null;
@@ -12,7 +8,7 @@ export const make = (fn) => {
             if (defaultValue) {
                 return defaultValue;
             }
-            else if (required) {
+            else if (!optional) {
                 throw new Error(ERR_NO_VALUE);
             }
             else {
@@ -22,28 +18,39 @@ export const make = (fn) => {
         return fn(payload, convert);
     });
     Object.defineProperties(handler, {
-        r: {
+        o: {
             get() {
-                required = true;
-                return handler;
+                return make(fn, true, nullable, convert, defaultValue);
+            }
+        },
+        optional: {
+            value: (optional = true) => {
+                return make(fn, optional, nullable, convert, defaultValue);
             }
         },
         n: {
             get() {
-                nullable = true;
-                return handler;
+                return make(fn, optional, true, convert, defaultValue);
+            }
+        },
+        nullable: {
+            value: (nullable = true) => {
+                return make(fn, optional, nullable, convert, defaultValue);
             }
         },
         c: {
             get() {
-                convert = true;
-                return handler;
+                return make(fn, optional, nullable, true, defaultValue);
+            }
+        },
+        convert: {
+            value: (convert = true) => {
+                return make(fn, optional, nullable, convert, defaultValue);
             }
         },
         d: {
             value: (defaultValue) => {
-                defaultValue = defaultValue;
-                return handler;
+                return make(fn, optional, nullable, convert, defaultValue);
             }
         }
     });

@@ -6,5 +6,5 @@ export const handleString = (payload, convert) => {
     }
     return (payload || "").toString();
 };
-export const string = () => make(handleString);
+export const string = (optional, nullable, convert, defaultValue) => make(handleString, optional, nullable, convert, defaultValue);
 //# sourceMappingURL=string.js.map

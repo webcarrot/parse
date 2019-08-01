@@ -2,12 +2,12 @@ import { ParserFunction, MakeParserOut } from "./types";
 import { ERR_NO_VALUE } from "./constants";
 
 export const make = <PF extends ParserFunction<any>>(
-  fn: PF
+  fn: PF,
+  optional: boolean = false,
+  nullable: boolean = false,
+  convert: boolean = false,
+  defaultValue: ReturnType<PF> = undefined
 ): MakeParserOut<typeof fn> => {
-  let required: boolean = false;
-  let nullable: boolean = false;
-  let convert: boolean = false;
-  let defaultValue: any;
   const handler = ((payload: any) => {
     if (nullable && payload === null) {
       return null;
@@ -15,7 +15,7 @@ export const make = <PF extends ParserFunction<any>>(
     if (payload === undefined || payload === null) {
       if (defaultValue) {
         return defaultValue;
-      } else if (required) {
+      } else if (!optional) {
         throw new Error(ERR_NO_VALUE);
       } else {
         return;
@@ -24,28 +24,39 @@ export const make = <PF extends ParserFunction<any>>(
     return fn(payload, convert);
   }) as MakeParserOut<typeof fn>;
   Object.defineProperties(handler, {
-    r: {
+    o: {
       get() {
-        required = true;
-        return handler;
+        return make(fn, true, nullable, convert, defaultValue);
+      }
+    },
+    optional: {
+      value: (optional: boolean = true) => {
+        return make(fn, optional, nullable, convert, defaultValue);
       }
     },
     n: {
       get() {
-        nullable = true;
-        return handler;
+        return make(fn, optional, true, convert, defaultValue);
+      }
+    },
+    nullable: {
+      value: (nullable: boolean = true) => {
+        return make(fn, optional, nullable, convert, defaultValue);
       }
     },
     c: {
       get() {
-        convert = true;
-        return handler;
+        return make(fn, optional, nullable, true, defaultValue);
+      }
+    },
+    convert: {
+      value: (convert: boolean = true) => {
+        return make(fn, optional, nullable, convert, defaultValue);
       }
     },
     d: {
       value: (defaultValue?: any) => {
-        defaultValue = defaultValue;
-        return handler;
+        return make(fn, optional, nullable, convert, defaultValue);
       }
     }
   });

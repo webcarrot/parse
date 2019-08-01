@@ -21,5 +21,5 @@ exports.handleShape = function (payload, data) {
 exports.makeShape = function (data) { return function (payload) {
     return exports.handleShape(payload, data);
 }; };
-exports.shape = function (data) { return make_1.make(exports.makeShape(data)); };
+exports.shape = function (data, optional, nullable, convert, defaultValue) { return make_1.make(exports.makeShape(data), optional, nullable, convert, defaultValue); };
 //# sourceMappingURL=shape.js.map

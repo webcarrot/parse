@@ -41,5 +41,9 @@ export const shape = <
   T extends MakeParserOut<any>,
   S extends { [key: string]: T }
 >(
-  data: S
-) => make(makeShape(data));
+  data: S,
+  optional?: boolean,
+  nullable?: boolean,
+  convert?: boolean,
+  defaultValue?: ShapeReturnType<typeof data>
+) => make(makeShape(data), optional, nullable, convert, defaultValue);

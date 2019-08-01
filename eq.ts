@@ -13,5 +13,11 @@ export const handleEq = <T>(payload: any, value: T) => {
 export const makeEq = <T>(value: T): ParserFunction<T> => (payload: any) =>
   handleEq(payload, value);
 
-export const eq = <T>(value: T): MakeParserOut<ParserFunction<T>> =>
-  make(makeEq(value));
+export const eq = <T>(
+  value: T,
+  optional?: boolean,
+  nullable?: boolean,
+  convert?: boolean,
+  defaultValue?: T
+): MakeParserOut<ParserFunction<T>> =>
+  make(makeEq(value), optional, nullable, convert, defaultValue);

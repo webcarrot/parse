@@ -9,4 +9,9 @@ export const handleString: ParserFunction<string> = (payload, convert) => {
   return (payload || "").toString();
 };
 
-export const string = () => make(handleString);
+export const string = (
+  optional?: boolean,
+  nullable?: boolean,
+  convert?: boolean,
+  defaultValue?: string
+) => make(handleString, optional, nullable, convert, defaultValue);

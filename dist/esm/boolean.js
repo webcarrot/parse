@@ -6,5 +6,5 @@ export const handleBoolean = (payload, convert) => {
     }
     return !!payload;
 };
-export const boolean = () => make(handleBoolean);
+export const boolean = (optional, nullable, convert, defaultValue) => make(handleBoolean, optional, nullable, convert, defaultValue);
 //# sourceMappingURL=boolean.js.map

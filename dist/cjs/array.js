@@ -13,7 +13,5 @@ exports.handleArray = function (payload, type) {
 exports.makeArray = function (type) { return function (payload) {
     return exports.handleArray(payload, type);
 }; };
-exports.array = function (type) {
-    return make_1.make(exports.makeArray(type));
-};
+exports.array = function (type, optional, nullable, convert, defaultValue) { return make_1.make(exports.makeArray(type), optional, nullable, convert, defaultValue); };
 //# sourceMappingURL=array.js.map

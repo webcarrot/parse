@@ -8,5 +8,5 @@ exports.handleBoolean = function (payload, convert) {
     }
     return !!payload;
 };
-exports.boolean = function () { return make_1.make(exports.handleBoolean); };
+exports.boolean = function (optional, nullable, convert, defaultValue) { return make_1.make(exports.handleBoolean, optional, nullable, convert, defaultValue); };
 //# sourceMappingURL=boolean.js.map

@@ -13,7 +13,7 @@ exports.handleEq = function (payload, value) {
 exports.makeEq = function (value) { return function (payload) {
     return exports.handleEq(payload, value);
 }; };
-exports.eq = function (value) {
-    return make_1.make(exports.makeEq(value));
+exports.eq = function (value, optional, nullable, convert, defaultValue) {
+    return make_1.make(exports.makeEq(value), optional, nullable, convert, defaultValue);
 };
 //# sourceMappingURL=eq.js.map

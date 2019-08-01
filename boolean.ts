@@ -9,4 +9,9 @@ export const handleBoolean: ParserFunction<boolean> = (payload, convert) => {
   return !!payload;
 };
 
-export const boolean = () => make(handleBoolean);
+export const boolean = (
+  optional?: boolean,
+  nullable?: boolean,
+  convert?: boolean,
+  defaultValue?: boolean
+) => make(handleBoolean, optional, nullable, convert, defaultValue);

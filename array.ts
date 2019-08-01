@@ -18,5 +18,10 @@ export const makeArray = <T extends MakeParserOut<any>>(
 ): ParserFunction<Array<ReturnType<T>>> => (payload: any) =>
   handleArray(payload, type);
 
-export const array = <T extends MakeParserOut<any>>(type: T) =>
-  make(makeArray(type));
+export const array = <T extends MakeParserOut<any>>(
+  type: T,
+  optional?: boolean,
+  nullable?: boolean,
+  convert?: boolean,
+  defaultValue?: Array<ReturnType<T>>
+) => make(makeArray(type), optional, nullable, convert, defaultValue);

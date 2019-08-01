@@ -13,5 +13,5 @@ export const handleNumber = (payload, convert) => {
         throw new Error(ERR_INVALID_VALUE);
     }
 };
-export const number = () => make(handleNumber);
+export const number = (optional, nullable, convert, defaultValue) => make(handleNumber, optional, nullable, convert, defaultValue);
 //# sourceMappingURL=number.js.map

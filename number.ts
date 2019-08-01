@@ -16,4 +16,9 @@ export const handleNumber: ParserFunction<number> = (payload, convert) => {
   }
 };
 
-export const number = () => make(handleNumber);
+export const number = (
+  optional?: boolean,
+  nullable?: boolean,
+  convert?: boolean,
+  defaultValue?: number
+) => make(handleNumber, optional, nullable, convert, defaultValue);

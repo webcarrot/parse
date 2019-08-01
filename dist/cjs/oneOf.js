@@ -14,5 +14,7 @@ exports.handleOnOf = function (payload, types) {
 exports.makeOnOf = function (types) { return function (payload) {
     return exports.handleOnOf(payload, types);
 }; };
-exports.oneOf = function (types) { return make_1.make(exports.makeOnOf(types)); };
+exports.oneOf = function (types, optional, nullable, convert, defaultValue) {
+    return make_1.make(exports.makeOnOf(types), optional, nullable, convert, defaultValue);
+};
 //# sourceMappingURL=oneOf.js.map

@@ -20,5 +20,10 @@ export const makeOnOf = <T extends MakeParserOut<any>>(
   handleOnOf(payload, types);
 
 export const oneOf = <T extends MakeParserOut<any>>(
-  types: T[]
-): MakeParserOut<ParserFunction<ReturnType<T>>> => make(makeOnOf(types));
+  types: T[],
+  optional?: boolean,
+  nullable?: boolean,
+  convert?: boolean,
+  defaultValue?: ReturnType<T>
+): MakeParserOut<ParserFunction<ReturnType<T>>> =>
+  make(makeOnOf<T>(types), optional, nullable, convert, defaultValue);

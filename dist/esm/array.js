@@ -9,5 +9,5 @@ export const handleArray = (payload, type) => {
     }
 };
 export const makeArray = (type) => (payload) => handleArray(payload, type);
-export const array = (type) => make(makeArray(type));
+export const array = (type, optional, nullable, convert, defaultValue) => make(makeArray(type), optional, nullable, convert, defaultValue);
 //# sourceMappingURL=array.js.map

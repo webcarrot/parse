@@ -15,5 +15,5 @@ exports.handleNumber = function (payload, convert) {
         throw new Error(constants_1.ERR_INVALID_VALUE);
     }
 };
-exports.number = function () { return make_1.make(exports.handleNumber); };
+exports.number = function (optional, nullable, convert, defaultValue) { return make_1.make(exports.handleNumber, optional, nullable, convert, defaultValue); };
 //# sourceMappingURL=number.js.map
