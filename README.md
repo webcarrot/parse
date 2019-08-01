@@ -1,2 +1,3 @@
-# parse
+# @webcrrot/parse
+
 Typed parser
