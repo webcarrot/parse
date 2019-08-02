@@ -13,7 +13,7 @@ export const make = <PF extends ParserFunction<any>>(
       return null;
     }
     if (payload === undefined || payload === null) {
-      if (defaultValue) {
+      if (defaultValue !== undefined) {
         return defaultValue;
       } else if (!optional) {
         throw new Error(ERR_NO_VALUE);
