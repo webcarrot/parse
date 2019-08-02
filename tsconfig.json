@@ -13,10 +13,11 @@
     "moduleResolution": "node",
     "lib": ["es7", "es2017", "dom"],
     "paths": {
-      "@webcarrot/parse": ["./index"],
-      "@webcarrot/parse/*": ["./*"]
+      "@webcarrot/parse": ["./src/index"],
+      "@webcarrot/parse/*": ["./src/*"]
     }
   },
+  "include": ["./src/**/*"],
   "exclude": ["./dist/**/*"],
   "esModuleInterop": true,
   "allowSyntheticDefaultImports": true
