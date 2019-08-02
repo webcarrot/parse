@@ -1,6 +1,6 @@
 import { ParserFunction, MakeParserOut } from "./types";
 import make from "./make";
-import { error } from "../utils";
+import { error, makePath } from "../utils";
 
 export const isPlainObject = (e: any): boolean =>
   e !== null && typeof e === "object" && e.constructor === Object;
@@ -18,7 +18,7 @@ export const handleShape = <
   }
   const out = {} as ShapeReturnType<typeof data>;
   for (let i in data) {
-    const v = data[i](payload[i], path ? `${path}.${i}` : i);
+    const v = data[i](payload[i], makePath(path, i));
     if (v !== undefined) {
       out[i] = v;
     }

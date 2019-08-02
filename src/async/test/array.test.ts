@@ -1,5 +1,5 @@
-import { array, number } from "./";
-import { error } from "../utils";
+import { array, number } from "../";
+import { error } from "../../utils";
 
 describe("sync", () => {
   describe("array", () => {

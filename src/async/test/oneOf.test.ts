@@ -1,4 +1,4 @@
-import { oneOf, shape, eq, string, number } from "./";
+import { oneOf, shape, eq, string, number } from "../";
 
 describe("sync", () => {
   describe("shape", () => {

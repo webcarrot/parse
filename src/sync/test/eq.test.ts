@@ -1,41 +1,41 @@
-import { boolean } from "./";
+import { eq } from "../";
 
 describe("sync", () => {
-  describe("boolean", () => {
+  describe("eq", () => {
     test("true", () => {
-      const parser = boolean();
+      const parser = eq(true);
       expect(parser(true)).toEqual(true);
     });
     test("false", () => {
-      const parser = boolean();
+      const parser = eq(false);
       expect(parser(false)).toEqual(false);
     });
     test("default true from undefined", () => {
-      const parser = boolean().d(true);
+      const parser = eq(true).d(true);
       expect(parser(undefined)).toEqual(true);
     });
     test("default false from undefined", () => {
-      const parser = boolean().d(false);
+      const parser = eq(false).d(false);
       expect(parser(undefined)).toEqual(false);
     });
     test("default true from null", () => {
-      const parser = boolean().d(true);
+      const parser = eq(true).d(true);
       expect(parser(null)).toEqual(true);
     });
     test("default false from null", () => {
-      const parser = boolean().d(false);
+      const parser = eq(false).d(false);
       expect(parser(null)).toEqual(false);
     });
-    test("convert true", () => {
-      const parser = boolean().c;
-      expect(parser("whatever")).toEqual(true);
+    test("string", () => {
+      const parser = eq("A");
+      expect(parser("A")).toEqual("A");
     });
-    test("convert false", () => {
-      const parser = boolean().c;
-      expect(parser("")).toEqual(false);
+    test("number", () => {
+      const parser = eq(1);
+      expect(parser(1)).toEqual(1);
     });
     test("should throw", () => {
-      const parser = boolean();
+      const parser = eq(1);
       expect(() => {
         parser("");
       }).toThrow();

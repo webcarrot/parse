@@ -1,4 +1,4 @@
-import { shape, eq, array, string, number, boolean } from "./";
+import { shape, eq, array, string, number, boolean } from "../";
 
 describe("sync", () => {
   describe("shape", () => {

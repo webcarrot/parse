@@ -1,5 +1,5 @@
-import { make } from "./";
-import { error } from "../utils";
+import { make } from "../";
+import { error } from "../../utils";
 
 describe("sync", () => {
   describe("make", () => {

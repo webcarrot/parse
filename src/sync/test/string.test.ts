@@ -1,4 +1,4 @@
-import { string } from "./";
+import { string } from "../";
 
 describe("sync", () => {
   describe("string", () => {

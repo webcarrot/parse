@@ -1,4 +1,4 @@
-import { number } from "./";
+import { number } from "../";
 
 describe("sync", () => {
   describe("number", () => {
