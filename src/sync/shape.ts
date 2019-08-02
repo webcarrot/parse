@@ -35,7 +35,7 @@ export const makeShape = <
   S extends { [key: string]: T }
 >(
   data: S
-): ParserFunction<ShapeReturnType<typeof data>> => (payload, _, path) =>
+): ParserFunction<ShapeReturnType<S>> => (payload, _, path) =>
   handleShape(payload, path, data);
 
 export default <T extends MakeParserOut<any>, S extends { [key: string]: T }>(
@@ -43,5 +43,5 @@ export default <T extends MakeParserOut<any>, S extends { [key: string]: T }>(
   optional?: boolean,
   nullable?: boolean,
   convert?: boolean,
-  defaultValue?: ShapeReturnType<typeof data>
+  defaultValue?: ShapeReturnType<S>
 ) => make(makeShape(data), optional, nullable, convert, defaultValue);

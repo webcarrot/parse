@@ -1,5 +1,5 @@
 import make from "./make";
-import { error } from "../utils";
+import { error, makePath } from "../utils";
 export const isPlainObject = (e) => e !== null && typeof e === "object" && e.constructor === Object;
 export const handleShape = (payload, path, data) => {
     if (!isPlainObject(payload)) {
@@ -7,7 +7,7 @@ export const handleShape = (payload, path, data) => {
     }
     const out = {};
     for (let i in data) {
-        const v = data[i](payload[i], path ? `${path}.${i}` : i);
+        const v = data[i](payload[i], makePath(path, i));
         if (v !== undefined) {
             out[i] = v;
         }

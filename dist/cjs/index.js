@@ -4,5 +4,6 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./sync"));
+__export(require("./async"));
 __export(require("./utils"));
 //# sourceMappingURL=index.js.map

@@ -3,17 +3,17 @@ const make = (fn, optional = false, nullable = false, convert = false, defaultVa
     const fWrap = wrap
         ? ((payload, _, path) => {
             if (nullable && payload === null) {
-                return null;
+                return Promise.resolve(null);
             }
             if (payload === undefined || payload === null) {
                 if (defaultValue !== undefined) {
-                    return defaultValue;
+                    return Promise.resolve(defaultValue);
                 }
                 else if (!optional) {
-                    throw error("Required", path, payload);
+                    return Promise.reject(error("Required", path, payload));
                 }
                 else {
-                    return;
+                    return Promise.resolve();
                 }
             }
             return fn(payload, convert, path);
@@ -58,19 +58,12 @@ const make = (fn, optional = false, nullable = false, convert = false, defaultVa
         },
         then: {
             value: (onSuccess) => {
-                return make((payload, convert, path) => onSuccess(fWrap(payload, convert, path), convert, path), optional, nullable, convert, defaultValue);
+                return make((payload, convert, path) => fWrap(payload, convert, path).then(value => onSuccess(value, convert, path)), optional, nullable, convert, defaultValue);
             }
         },
         catch: {
             value: (onError) => {
-                return make((payload, convert, path) => {
-                    try {
-                        return fWrap(payload, convert, path);
-                    }
-                    catch (_) {
-                        return onError(payload, convert, path);
-                    }
-                }, optional, nullable, convert, defaultValue, false);
+                return make((payload, convert, path) => fWrap(payload, convert, path).catch(() => onError(payload, convert, path)), optional, nullable, convert, defaultValue, false);
             }
         }
     });

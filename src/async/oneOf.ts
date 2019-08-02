@@ -5,29 +5,41 @@ import {
 } from "./types";
 import make from "./make";
 import { error } from "../utils";
+import { MakeParserOut } from "../sync/types";
 
-export const handleOnOf = <T extends AsyncMakeParserOut<any>>(
+export const handleOnOf = <
+  T extends AsyncMakeParserOut<any>,
+  TS extends MakeParserOut<any>
+>(
   payload: any,
   path: string,
-  types: T[]
+  types: Array<T | TS>
 ) =>
   types
     .reduce(
       (out, type) => out.catch(() => type(payload, path)),
       Promise.reject()
     )
-    .catch(() => error("One of", path, payload));
+    .catch(() => {
+      throw error("One of", path, payload);
+    });
 
-export const makeOnOf = <T extends AsyncMakeParserOut<any>>(
-  types: T[]
-): AsyncParserFunction<AsyncReturnType<T>> => (payload, _, path) =>
+export const makeOnOf = <
+  T extends AsyncMakeParserOut<any>,
+  TS extends MakeParserOut<any>
+>(
+  types: Array<T | TS>
+): AsyncParserFunction<AsyncReturnType<T | TS>> => (payload, _, path) =>
   handleOnOf(payload, path, types);
 
-export default <T extends AsyncMakeParserOut<any>>(
-  types: T[],
+export default <
+  T extends AsyncMakeParserOut<any>,
+  TS extends MakeParserOut<any>
+>(
+  types: Array<T | TS>,
   optional?: boolean,
   nullable?: boolean,
   convert?: boolean,
   defaultValue?: AsyncReturnType<T>
-): AsyncMakeParserOut<AsyncParserFunction<AsyncReturnType<T>>> =>
-  make(makeOnOf<T>(types), optional, nullable, convert, defaultValue);
+): AsyncMakeParserOut<AsyncParserFunction<AsyncReturnType<T | TS>>> =>
+  make(makeOnOf<T, TS>(types), optional, nullable, convert, defaultValue);

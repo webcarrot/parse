@@ -11,7 +11,7 @@ exports.handleShape = function (payload, path, data) {
     }
     var out = {};
     for (var i in data) {
-        var v = data[i](payload[i], path ? path + "." + i : i);
+        var v = data[i](payload[i], utils_1.makePath(path, i));
         if (v !== undefined) {
             out[i] = v;
         }

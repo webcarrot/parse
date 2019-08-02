@@ -8,6 +8,11 @@ const handleEq = (payload, path, value) => {
         throw error(value, path, payload);
     }
 };
-const makeEq = (value) => (payload, _, path) => handleEq(payload, path, value);
+const makeEq = (value) => {
+    return (payload, _, path) => {
+        const U = handleEq(payload, path, value);
+        return U;
+    };
+};
 export default (value, optional, nullable, convert, defaultValue) => make(makeEq(value), optional, nullable, convert, defaultValue);
 //# sourceMappingURL=eq.js.map

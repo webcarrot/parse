@@ -1,8 +1,11 @@
-import { shape, eq, array, string, number, boolean } from "../";
+import { asyncArray as array, asyncShape as shape } from "../";
+import { eq, string, number, boolean } from "../../sync";
+import { error } from "@webcarrot/parse/utils";
 
 describe("sync", () => {
   describe("shape", () => {
     test("A", () => {
+      expect.assertions(1);
       const parser = shape({
         eq: eq("eq"),
         array: array(
@@ -15,7 +18,7 @@ describe("sync", () => {
           })
         )
       });
-      expect(
+      return expect(
         parser({
           eq: "eq",
           array: [
@@ -34,7 +37,7 @@ describe("sync", () => {
             }
           ]
         })
-      ).toMatchObject({
+      ).resolves.toMatchObject({
         eq: "eq",
         array: [
           {
@@ -64,7 +67,7 @@ describe("sync", () => {
           })
         )
       });
-      expect(() => {
+      return expect(
         parser({
           eq: "ss",
           array: [
@@ -79,8 +82,8 @@ describe("sync", () => {
               boolean: false
             }
           ]
-        });
-      }).toThrow();
+        })
+      ).rejects.toMatchObject(error("eq", ".eq", "ss"));
     });
   });
 });

@@ -1,3 +1,5 @@
+import { ParserFunction } from "../sync/types";
+
 export type AsyncParserFunction<T, P = any> = (
   payload: P,
   convert: boolean,
@@ -12,7 +14,7 @@ export type AsyncReturnType<T extends (...args: any) => any> = AsyncUnpacked<
 // TODO: Try to improve this types
 
 export type AsyncMakeParserOut<Fn extends AsyncParserFunction<any>> = {
-  (payload: any, path?: string): AsyncReturnType<Fn>;
+  (payload: any, path?: string): ReturnType<Fn>;
   /** Make it optional */
   o: AsyncMakeParserOut<AsyncParserFunction<AsyncReturnType<Fn> | void>>;
   /** Set optional flag */
@@ -28,11 +30,19 @@ export type AsyncMakeParserOut<Fn extends AsyncParserFunction<any>> = {
   /** Set default value */
   d(v?: AsyncReturnType<Fn>): AsyncMakeParserOut<Fn>;
   /** Handle success */
-  then<FnS extends AsyncParserFunction<any, AsyncReturnType<Fn>>>(
-    onSuccess: FnS
-  ): AsyncMakeParserOut<FnS>;
+  then<
+    FSuccess extends AsyncParserFunction<any, AsyncReturnType<Fn>>,
+    FSuccessSync extends ParserFunction<any, AsyncReturnType<Fn>>
+  >(
+    onSuccess: FSuccess | FSuccessSync
+  ): AsyncMakeParserOut<
+    AsyncParserFunction<AsyncReturnType<FSuccess> | ReturnType<FSuccessSync>>
+  >;
   /** Handle error  */
-  catch<FnS extends AsyncParserFunction<any>>(
-    onError: FnS
-  ): AsyncMakeParserOut<FnS | Fn>;
+  catch<
+    FError extends AsyncParserFunction<any>,
+    FErrorSync extends ParserFunction<any>
+  >(
+    onError: FError | FErrorSync
+  ): AsyncMakeParserOut<FError | FErrorSync | Fn>;
 };

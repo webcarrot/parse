@@ -6,26 +6,28 @@ export type ParserFunction<T, P = any> = (
 
 // TODO: Try to improve this types
 
-export type MakeParserOut<Fn extends ParserFunction<any>> = {
-  (payload: any, path?: string): ReturnType<Fn>;
+export type MakeParserOut<T = any, P = any, Fn = ParserFunction<T, P>> = {
+  (payload: any, path?: string): T;
   /** Make it optional */
-  o: MakeParserOut<ParserFunction<ReturnType<Fn> | void>>;
+  o: MakeParserOut<T | void>;
   /** Set optional flag */
-  optional(optional?: boolean): MakeParserOut<Fn>;
+  optional(optional?: boolean): MakeParserOut<T>;
   /** Make it nullable */
-  n: MakeParserOut<ParserFunction<ReturnType<Fn> | void>>;
+  n: MakeParserOut<T | void>;
   /** Set nullable flag */
-  nullable(nullable?: boolean): MakeParserOut<Fn>;
+  nullable(nullable?: boolean): MakeParserOut<T>;
   /** Enable conversion */
-  c: MakeParserOut<Fn>;
+  c: MakeParserOut<T>;
   /** Set conversion flag */
-  convert(convert?: boolean): MakeParserOut<Fn>;
+  convert(convert?: boolean): MakeParserOut<T>;
   /** Set default value */
-  d(v?: ReturnType<Fn>): MakeParserOut<Fn>;
+  d(v?: T): MakeParserOut<T>;
   /** Handle success */
-  then<FnS extends ParserFunction<any, ReturnType<Fn>>>(
-    onSuccess: FnS
-  ): MakeParserOut<FnS>;
+  then<FSuccess extends ParserFunction<any, T>>(
+    onSuccess: FSuccess
+  ): MakeParserOut<ReturnType<FSuccess>>;
   /** Handle error  */
-  catch<FnS extends ParserFunction<any>>(onError: FnS): MakeParserOut<FnS | Fn>;
+  catch<FError extends ParserFunction<any, P>>(
+    onError: FError
+  ): MakeParserOut<ReturnType<FError> | T>;
 };

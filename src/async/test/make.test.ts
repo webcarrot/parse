@@ -1,61 +1,71 @@
-import { make } from "../";
+import { asyncMake as make } from "../";
 import { error } from "../../utils";
 
-describe("sync", () => {
+describe("async", () => {
   describe("make", () => {
     const date = new Date();
     const tester = (magic: string) =>
       make((payload: any, _: boolean, path: string) => {
         if (payload === magic) {
-          return date;
+          return Promise.resolve(date);
         } else {
-          throw error(magic, path, payload);
+          return Promise.reject(error(magic, path, payload));
         }
       });
 
     test("simple", () => {
+      expect.assertions(1);
       const parser = tester("simple");
-      expect(parser("simple")).toMatchObject(date);
+      return expect(parser("simple")).resolves.toMatchObject(date);
     });
     test("simple then", () => {
+      expect.assertions(1);
       const parser = tester("simple then").then((payload: Date) =>
         payload.toUTCString()
       );
-      expect(parser("simple then")).toEqual(date.toUTCString());
+      return expect(parser("simple then")).resolves.toEqual(date.toUTCString());
     });
     test("simple then then", () => {
+      expect.assertions(1);
       const parser = tester("simple then then")
         .then((payload: Date) => payload.toUTCString())
         .then((payload: string) => payload.length);
-      expect(parser("simple then then")).toEqual(date.toUTCString().length);
+      return expect(parser("simple then then")).resolves.toEqual(
+        date.toUTCString().length
+      );
     });
 
     test("simple then then should thrown", () => {
+      expect.assertions(1);
       const parser = tester("simple then then should thrown")
         .then((payload: Date) => payload.toUTCString())
         .then((payload: string) => payload.length);
-      expect(() => {
-        parser("");
-      }).toThrow();
+      return expect(parser("")).rejects.toMatchObject(
+        error("simple then then should thrown", "", "")
+      );
     });
     test("simple catch", () => {
+      expect.assertions(1);
       const parser = tester("simple catch").catch(() => 0);
-      expect(parser("simple catch")).toMatchObject(date);
+      return expect(parser("simple catch")).resolves.toMatchObject(date);
     });
     test("simple catch do catch", () => {
+      expect.assertions(1);
       const someArray = new ArrayBuffer(1);
       const parser = tester("simple catch").catch(() => someArray);
-      expect(parser("?")).toMatchObject(someArray);
+      return expect(parser("?")).resolves.toMatchObject(someArray);
     });
     test("simple catch do catch - null", () => {
+      expect.assertions(1);
       const someArray = new ArrayBuffer(1);
       const parser = tester("simple catch").catch(() => someArray);
-      expect(parser(null)).toMatchObject(someArray);
+      return expect(parser(null)).resolves.toMatchObject(someArray);
     });
     test("simple catch do catch - undefined", () => {
+      expect.assertions(1);
       const someArray = new ArrayBuffer(1);
       const parser = tester("simple catch").catch(() => someArray);
-      expect(parser(undefined)).toMatchObject(someArray);
+      return expect(parser(undefined)).resolves.toMatchObject(someArray);
     });
   });
 });

@@ -1,8 +1,11 @@
-import { oneOf, shape, eq, string, number } from "../";
+import { asyncOneOf as oneOf, asyncShape } from "../";
+import { eq, string, number, shape } from "../../sync";
+import { error } from "@webcarrot/parse/utils";
 
-describe("sync", () => {
-  describe("shape", () => {
+describe("async", () => {
+  describe("oneOf", () => {
     test("A", () => {
+      expect.assertions(1);
       const base = {
         query: shape({
           q: string().o
@@ -16,15 +19,15 @@ describe("sync", () => {
           method: eq("GET"),
           ...base
         }),
-        shape({
+        asyncShape({
           method: eq("POST"),
           ...base,
-          body: shape({
+          body: asyncShape({
             id: number().c
           })
         })
       ]);
-      expect(
+      return expect(
         parser({
           method: "POST",
           body: {
@@ -32,7 +35,7 @@ describe("sync", () => {
             unknown: 2
           }
         })
-      ).toMatchObject({
+      ).resolves.toMatchObject({
         method: "POST",
         body: {
           id: 12
@@ -40,32 +43,37 @@ describe("sync", () => {
       });
     });
     test("should throw", () => {
+      expect.assertions(1);
       const base = {
-        query: shape({
+        query: asyncShape({
           q: string().o
         }).o,
-        params: shape({
+        params: asyncShape({
           id: string().o
         }).o
       };
       const parser = oneOf([
-        shape({
+        asyncShape({
           method: eq("GET"),
           ...base
         }),
-        shape({
+        asyncShape({
           method: eq("POST"),
           ...base,
-          body: shape({
+          body: asyncShape({
             id: string().n
           })
         })
       ]);
-      expect(() => {
+      return expect(
         parser({
           method: "POST"
-        });
-      }).toThrow();
+        })
+      ).rejects.toMatchObject(
+        error("One of", "", {
+          method: "POST"
+        })
+      );
     });
   });
 });

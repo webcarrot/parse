@@ -2,7 +2,7 @@ import { ParserFunction, MakeParserOut } from "./types";
 import make from "./make";
 import { error } from "../utils";
 
-export const handleOnOf = <T extends MakeParserOut<any>>(
+export const handleOneOf = <T extends MakeParserOut<any>>(
   payload: any,
   path: string,
   types: T[]
@@ -15,10 +15,10 @@ export const handleOnOf = <T extends MakeParserOut<any>>(
   throw error("One of", path, payload);
 };
 
-export const makeOnOf = <T extends MakeParserOut<any>>(
+export const makeOneOf = <T extends MakeParserOut<any>>(
   types: T[]
 ): ParserFunction<ReturnType<T>> => (payload, _, path) =>
-  handleOnOf(payload, path, types);
+  handleOneOf(payload, path, types);
 
 export default <T extends MakeParserOut<any>>(
   types: T[],
@@ -26,5 +26,5 @@ export default <T extends MakeParserOut<any>>(
   nullable?: boolean,
   convert?: boolean,
   defaultValue?: ReturnType<T>
-): MakeParserOut<ParserFunction<ReturnType<T>>> =>
-  make(makeOnOf<T>(types), optional, nullable, convert, defaultValue);
+): MakeParserOut<ReturnType<T>> =>
+  make(makeOneOf(types), optional, nullable, convert, defaultValue);

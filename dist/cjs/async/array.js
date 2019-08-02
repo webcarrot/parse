@@ -4,10 +4,17 @@ var make_1 = require("./make");
 var utils_1 = require("../utils");
 var handleArray = function (payload, path, type) {
     if (payload instanceof Array) {
-        return payload.map(function (v, no) { return type(v, utils_1.makePath(path, no)); });
+        return Promise.all(payload.map(function (v, no) {
+            try {
+                return type(v, utils_1.makePath(path, no));
+            }
+            catch (err) {
+                return Promise.reject(err);
+            }
+        }));
     }
     else {
-        throw utils_1.error("Array", path, payload);
+        return Promise.reject(utils_1.error("Array", path, payload));
     }
 };
 var makeArray = function (type) { return function (payload, _, path) { return handleArray(payload, path, type); }; };

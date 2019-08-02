@@ -10,10 +10,11 @@ var handleEq = function (payload, path, value) {
         throw utils_1.error(value, path, payload);
     }
 };
-var makeEq = function (value) { return function (payload, _, path) {
-    return handleEq(payload, path, value);
-}; };
-exports.default = (function (value, optional, nullable, convert, defaultValue) {
-    return make_1.default(makeEq(value), optional, nullable, convert, defaultValue);
-});
+var makeEq = function (value) {
+    return function (payload, _, path) {
+        var U = handleEq(payload, path, value);
+        return U;
+    };
+};
+exports.default = (function (value, optional, nullable, convert, defaultValue) { return make_1.default(makeEq(value), optional, nullable, convert, defaultValue); });
 //# sourceMappingURL=eq.js.map

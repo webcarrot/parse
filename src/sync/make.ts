@@ -1,14 +1,14 @@
 import { ParserFunction, MakeParserOut } from "./types";
 import { error } from "../utils";
 
-const make = <PF extends ParserFunction<any>>(
+const make = <T, PF extends ParserFunction<T> = ParserFunction<T>>(
   fn: PF,
   optional: boolean = false,
   nullable: boolean = false,
   convert: boolean = false,
-  defaultValue: ReturnType<PF> = undefined,
+  defaultValue: T = undefined,
   wrap: boolean = true
-): MakeParserOut<typeof fn> => {
+): MakeParserOut<T> => {
   const fWrap: typeof fn = wrap
     ? (((payload, _, path) => {
         if (nullable && payload === null) {
@@ -18,7 +18,7 @@ const make = <PF extends ParserFunction<any>>(
           if (defaultValue !== undefined) {
             return defaultValue;
           } else if (!optional) {
-            throw error("Any", path, payload);
+            throw error("Required", path, payload);
           } else {
             return;
           }
@@ -27,7 +27,7 @@ const make = <PF extends ParserFunction<any>>(
       }) as typeof fn)
     : fn;
   const handler = ((payload: any, path: string = "") =>
-    fWrap(payload, convert, path)) as MakeParserOut<typeof fn>;
+    fWrap(payload, convert, path)) as MakeParserOut<T>;
   Object.defineProperties(handler, {
     o: {
       get() {
@@ -65,9 +65,7 @@ const make = <PF extends ParserFunction<any>>(
       }
     },
     then: {
-      value: <FnS extends ParserFunction<any, ReturnType<typeof fn>>>(
-        onSuccess: FnS
-      ) => {
+      value: <FSuccess extends ParserFunction<any, T>>(onSuccess: FSuccess) => {
         return make(
           (payload: any, convert: boolean, path?: string) =>
             onSuccess(fWrap(payload, convert, path), convert, path),
@@ -79,9 +77,7 @@ const make = <PF extends ParserFunction<any>>(
       }
     },
     catch: {
-      value: <FnS extends ParserFunction<any, ReturnType<typeof fn>>>(
-        onError: FnS
-      ) => {
+      value: <FError extends ParserFunction<any, T>>(onError: FError) => {
         return make(
           (payload: any, convert: boolean, path?: string) => {
             try {

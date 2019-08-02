@@ -1,4 +1,3 @@
-import { ParserFunction, MakeParserOut } from "./types";
 import make from "./make";
 import { error } from "../utils";
 
@@ -10,8 +9,12 @@ const handleEq = <T>(payload: any, path: string, value: T) => {
   }
 };
 
-const makeEq = <T>(value: T): ParserFunction<T> => (payload, _, path) =>
-  handleEq(payload, path, value);
+const makeEq = <T>(value: T) => {
+  return (payload: any, _: boolean, path: string) => {
+    const U = handleEq(payload, path, value);
+    return U as typeof U;
+  };
+};
 
 export default <T>(
   value: T,
@@ -19,5 +22,4 @@ export default <T>(
   nullable?: boolean,
   convert?: boolean,
   defaultValue?: T
-): MakeParserOut<ParserFunction<T>> =>
-  make(makeEq(value), optional, nullable, convert, defaultValue);
+) => make(makeEq(value), optional, nullable, convert, defaultValue);

@@ -10,17 +10,17 @@ var make = function (fn, optional, nullable, convert, defaultValue, wrap) {
     var fWrap = wrap
         ? (function (payload, _, path) {
             if (nullable && payload === null) {
-                return null;
+                return Promise.resolve(null);
             }
             if (payload === undefined || payload === null) {
                 if (defaultValue !== undefined) {
-                    return defaultValue;
+                    return Promise.resolve(defaultValue);
                 }
                 else if (!optional) {
-                    throw utils_1.error("Required", path, payload);
+                    return Promise.reject(utils_1.error("Required", path, payload));
                 }
                 else {
-                    return;
+                    return Promise.resolve();
                 }
             }
             return fn(payload, convert, path);
@@ -72,19 +72,18 @@ var make = function (fn, optional, nullable, convert, defaultValue, wrap) {
         then: {
             value: function (onSuccess) {
                 return make(function (payload, convert, path) {
-                    return onSuccess(fWrap(payload, convert, path), convert, path);
+                    return fWrap(payload, convert, path).then(function (value) {
+                        return onSuccess(value, convert, path);
+                    });
                 }, optional, nullable, convert, defaultValue);
             }
         },
         catch: {
             value: function (onError) {
                 return make(function (payload, convert, path) {
-                    try {
-                        return fWrap(payload, convert, path);
-                    }
-                    catch (_) {
+                    return fWrap(payload, convert, path).catch(function () {
                         return onError(payload, convert, path);
-                    }
+                    });
                 }, optional, nullable, convert, defaultValue, false);
             }
         }

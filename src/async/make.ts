@@ -22,7 +22,7 @@ const make = <PF extends AsyncParserFunction<any>>(
           if (defaultValue !== undefined) {
             return Promise.resolve(defaultValue);
           } else if (!optional) {
-            return Promise.reject(error("Any", path, payload));
+            return Promise.reject(error("Required", path, payload));
           } else {
             return Promise.resolve();
           }
