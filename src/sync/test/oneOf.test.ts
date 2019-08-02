@@ -48,6 +48,7 @@ describe("sync", () => {
           id: string().o
         }).o
       };
+
       const parser = oneOf([
         shape({
           method: eq<"GET">("GET"),
