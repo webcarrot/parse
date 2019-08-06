@@ -1,7 +1,7 @@
 {
   "public": true,
   "name": "@webcarrot/parse",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Typed parser",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -37,7 +37,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.16",
+    "@types/jest": "^24.0.17",
     "@webcarrot/copy-declaration-ts": "^1.0.0",
     "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
