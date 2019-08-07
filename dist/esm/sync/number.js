@@ -1,10 +1,11 @@
 import make from "./make";
-import { error } from "../utils";
-export const handleNumber = (payload, convert, path) => {
+import basic from "./basic";
+import error from "../utils/error";
+const handleNumber = (payload, path, options) => {
     if (typeof payload === "number") {
         return payload;
     }
-    else if (convert &&
+    else if (options.convert &&
         typeof payload === "string" &&
         /^-?\d+(\.\d+)?$/.test(payload)) {
         return parseFloat(payload);
@@ -13,5 +14,5 @@ export const handleNumber = (payload, convert, path) => {
         throw error("Number", path, payload);
     }
 };
-export default (optional, nullable, convert, defaultValue) => make(handleNumber, optional, nullable, convert, defaultValue);
+export default (options) => make(basic(handleNumber), options);
 //# sourceMappingURL=number.js.map

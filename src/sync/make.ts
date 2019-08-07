@@ -1,4 +1,5 @@
-import { ParserFunction, MakeParserOut, ParseFunctionOptions } from "./types";
+import { ParseFunctionOptions } from "../types";
+import { ParserFunction, Parser } from "./types";
 
 const make = <
   Output,
@@ -12,9 +13,9 @@ const make = <
 >(
   fn: PF,
   options: Options = {} as Options
-): MakeParserOut<Output> => {
+): Parser<Output> => {
   const handler = ((payload: any, path: string = "") =>
-    fn(payload, path, options)) as MakeParserOut<Output, Payload, Options>;
+    fn(payload, path, options)) as Parser<Output, Payload, Options>;
   handler.then = onSuccess =>
     make((payload, path) =>
       onSuccess(fn(payload, path, options), path)

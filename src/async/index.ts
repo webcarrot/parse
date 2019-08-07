@@ -1,5 +1,5 @@
 export {
-  AsyncMakeParserOut,
+  AsyncParser,
   AsyncParserFunction,
   AsyncReturnType,
   AsyncUnpacked

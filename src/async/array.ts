@@ -1,19 +1,14 @@
-import {
-  AsyncParserFunction,
-  AsyncMakeParserOut,
-  AsyncReturnType
-} from "./types";
+import { Parser } from "../sync/types";
+import { ParseFunctionOptions } from "../types";
+import { AsyncParserFunction, AsyncParser } from "./types";
 import make from "./make";
+import basic from "./basic";
 import { error, makePath } from "../utils";
-import { MakeParserOut } from "../sync/types";
 
-const handleArray = <
-  T extends AsyncMakeParserOut<any>,
-  TS extends MakeParserOut<any>
->(
+const handleArray = <T extends Parser<any> | AsyncParser<any>>(
   payload: any,
   path: string,
-  type: T | TS
+  type: T
 ) => {
   if (payload instanceof Array) {
     return Promise.all(
@@ -30,24 +25,12 @@ const handleArray = <
   }
 };
 
-const makeArray = <
-  T extends AsyncMakeParserOut<any>,
-  TS extends MakeParserOut<any>
->(
-  type: T | TS
-): AsyncParserFunction<Array<AsyncReturnType<T> | ReturnType<TS>>> => (
-  payload,
-  _,
-  path
-) => handleArray(payload, path, type);
+const makeArray = <T>(
+  type: Parser<T> | AsyncParser<T>
+): AsyncParserFunction<Array<T>> => (payload, path) =>
+  handleArray(payload, path, type);
 
-export default <
-  T extends AsyncMakeParserOut<any>,
-  TS extends MakeParserOut<any>
->(
-  type: T | TS,
-  optional?: boolean,
-  nullable?: boolean,
-  convert?: boolean,
-  defaultValue?: Array<AsyncReturnType<T> | ReturnType<TS>>
-) => make(makeArray(type), optional, nullable, convert, defaultValue);
+export default <T>(
+  type: Parser<T> | AsyncParser<T>,
+  options?: ParseFunctionOptions<Array<T>>
+) => make<Array<T>>(basic(makeArray(type)), options);

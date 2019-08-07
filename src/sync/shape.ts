@@ -1,15 +1,13 @@
-import { ParserFunction, ParseFunctionOptions, MakeParserOut } from "./types";
+import { ParseFunctionOptions } from "../types";
+import { ParserFunction, Parser } from "./types";
 import make from "./make";
 import basic from "./basic";
 import { error, makePath } from "../utils";
 
-export const isPlainObject = (e: any): boolean =>
+const isPlainObject = (e: any): boolean =>
   e !== null && typeof e === "object" && e.constructor === Object;
 
-export const handleShape = <
-  T extends MakeParserOut<any>,
-  S extends { [key: string]: T }
->(
+const handleShape = <T extends Parser<any>, S extends { [key: string]: T }>(
   payload: any,
   path: string,
   data: S
@@ -27,19 +25,16 @@ export const handleShape = <
   return out;
 };
 
-type ShapeReturnType<S extends { [key: string]: MakeParserOut<any> }> = {
-  [K in keyof S]: ReturnType<S[K]>
+type ShapeReturnType<S extends { [key: string]: Parser<any> }> = {
+  [K in keyof S]?: ReturnType<S[K]>
 };
 
-export const makeShape = <
-  T extends MakeParserOut<any>,
-  S extends { [key: string]: T }
->(
+const makeShape = <T extends Parser<any>, S extends { [key: string]: T }>(
   data: S
 ): ParserFunction<ShapeReturnType<S>> => (payload, path) =>
   handleShape(payload, path, data);
 
-export default <T extends MakeParserOut<any>, S extends { [key: string]: T }>(
-  data: S,
-  options?: ParseFunctionOptions<ShapeReturnType<S>>
-) => make(basic(makeShape(data)), options);
+export default <MPO extends Parser<any>, Shape extends { [key: string]: MPO }>(
+  data: Shape,
+  options?: ParseFunctionOptions<ShapeReturnType<Shape>>
+) => make<ShapeReturnType<Shape>>(basic(makeShape(data)), options);

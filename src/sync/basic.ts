@@ -1,26 +1,25 @@
+import { ParseFunctionOptions } from "../types";
+import { ParserFunction } from "./types";
 import error from "../utils/error";
-import { ParseFunctionOptions, ParserFunction } from "./types";
 
 export default <
   Output,
   Payload extends any,
-  Options extends ParseFunctionOptions<Output>,
-  Fn extends ParserFunction<Output, Payload, Options>
+  Options extends ParseFunctionOptions<Output>
 >(
-  fn: Fn
-): typeof fn =>
-  ((payload: Payload, path: string, options: Options) => {
-    if (options.nullable && payload === null) {
-      return null;
+  fn: ParserFunction<Output, Payload, Options>
+): typeof fn => (payload, path, options) => {
+  if (options.nullable && payload === null) {
+    return null;
+  }
+  if (payload === undefined || payload === null) {
+    if ("default" in options) {
+      return options.default;
+    } else if (!options.optional) {
+      throw error("Required", path, payload);
+    } else {
+      return;
     }
-    if (payload === undefined || payload === null) {
-      if ("default" in options) {
-        return options.default;
-      } else if (!options.optional) {
-        throw error("Required", path, payload);
-      } else {
-        return;
-      }
-    }
-    return fn(payload, path, options);
-  }) as typeof fn;
+  }
+  return fn(payload, path, options);
+};

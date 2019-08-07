@@ -11,7 +11,7 @@ describe("async", () => {
     });
     test("array of numbers from array of strings", () => {
       expect.assertions(1);
-      const parser = array(number().c);
+      const parser = array(number({ convert: true }));
       return expect(parser(["1", "2", 3, "4.5"])).resolves.toMatchObject([
         1,
         2,
@@ -42,12 +42,12 @@ describe("async", () => {
     });
     test("nullable", () => {
       expect.assertions(1);
-      const parser = array(number().c).n;
+      const parser = array(number({ convert: true }), { nullable: true });
       return expect(parser(null)).resolves.toEqual(null);
     });
     test("default", () => {
       expect.assertions(1);
-      const parser = array(number().c).d([2]);
+      const parser = array(number({ convert: true }), { default: [2] });
       return expect(parser(undefined)).resolves.toMatchObject([2]);
     });
   });

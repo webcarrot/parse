@@ -1,7 +1,8 @@
 import make from "./make";
+import basic from "./basic";
 import { error, makePath } from "../utils";
-export const isPlainObject = (e) => e !== null && typeof e === "object" && e.constructor === Object;
-export const handleShape = (payload, path, data) => {
+const isPlainObject = (e) => e !== null && typeof e === "object" && e.constructor === Object;
+const handleShape = (payload, path, data) => {
     if (!isPlainObject(payload)) {
         throw error("Object", path, payload);
     }
@@ -14,6 +15,6 @@ export const handleShape = (payload, path, data) => {
     }
     return out;
 };
-export const makeShape = (data) => (payload, _, path) => handleShape(payload, path, data);
-export default (data, optional, nullable, convert, defaultValue) => make(makeShape(data), optional, nullable, convert, defaultValue);
+const makeShape = (data) => (payload, path) => handleShape(payload, path, data);
+export default (data, options) => make(basic(makeShape(data)), options);
 //# sourceMappingURL=shape.js.map

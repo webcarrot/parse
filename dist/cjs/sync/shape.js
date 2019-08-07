@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var make_1 = require("./make");
+var basic_1 = require("./basic");
 var utils_1 = require("../utils");
-exports.isPlainObject = function (e) {
+var isPlainObject = function (e) {
     return e !== null && typeof e === "object" && e.constructor === Object;
 };
-exports.handleShape = function (payload, path, data) {
-    if (!exports.isPlainObject(payload)) {
+var handleShape = function (payload, path, data) {
+    if (!isPlainObject(payload)) {
         throw utils_1.error("Object", path, payload);
     }
     var out = {};
@@ -18,8 +19,8 @@ exports.handleShape = function (payload, path, data) {
     }
     return out;
 };
-exports.makeShape = function (data) { return function (payload, _, path) {
-    return exports.handleShape(payload, path, data);
+var makeShape = function (data) { return function (payload, path) {
+    return handleShape(payload, path, data);
 }; };
-exports.default = (function (data, optional, nullable, convert, defaultValue) { return make_1.default(exports.makeShape(data), optional, nullable, convert, defaultValue); });
+exports.default = (function (data, options) { return make_1.default(basic_1.default(makeShape(data)), options); });
 //# sourceMappingURL=shape.js.map

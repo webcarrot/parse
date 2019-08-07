@@ -1,4 +1,5 @@
-import { ParserFunction, ParseFunctionOptions } from "./types";
+import { ParseFunctionOptions } from "../types";
+import { ParserFunction } from "./types";
 import make from "./make";
 import basic from "./basic";
 import error from "../utils/error";
@@ -11,4 +12,4 @@ const handleBoolean: ParserFunction<boolean> = (payload, path, options) => {
 };
 
 export default (options?: ParseFunctionOptions<boolean>) =>
-  make(basic(handleBoolean), options);
+  make<boolean>(basic(handleBoolean), options);

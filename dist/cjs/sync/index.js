@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var array_1 = require("./array");
 exports.array = array_1.default;
+var basic_1 = require("./basic");
+exports.basic = basic_1.default;
 var boolean_1 = require("./boolean");
 exports.boolean = boolean_1.default;
 var eq_1 = require("./eq");

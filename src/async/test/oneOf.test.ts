@@ -7,12 +7,18 @@ describe("async", () => {
     test("A", () => {
       expect.assertions(1);
       const base = {
-        query: shape({
-          q: string().o
-        }).o,
-        params: shape({
-          id: string().o
-        }).o
+        query: shape(
+          {
+            q: string({ optional: true })
+          },
+          { optional: true }
+        ),
+        params: shape(
+          {
+            id: string({ optional: true })
+          },
+          { optional: true }
+        )
       };
       const parser = oneOf([
         shape({
@@ -23,7 +29,7 @@ describe("async", () => {
           method: eq("POST"),
           ...base,
           body: asyncShape({
-            id: number().c
+            id: number({ convert: true })
           })
         })
       ]);
@@ -45,12 +51,18 @@ describe("async", () => {
     test("should throw", () => {
       expect.assertions(1);
       const base = {
-        query: asyncShape({
-          q: string().o
-        }).o,
-        params: asyncShape({
-          id: string().o
-        }).o
+        query: asyncShape(
+          {
+            q: string({ optional: true })
+          },
+          { optional: true }
+        ),
+        params: asyncShape(
+          {
+            id: string({ optional: true })
+          },
+          { optional: true }
+        )
       };
       const parser = oneOf([
         asyncShape({
@@ -61,7 +73,7 @@ describe("async", () => {
           method: eq("POST"),
           ...base,
           body: asyncShape({
-            id: string().n
+            id: string({ nullable: true })
           })
         })
       ]);

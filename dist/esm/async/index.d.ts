@@ -1,4 +1,4 @@
-export { AsyncMakeParserOut, AsyncParserFunction, AsyncReturnType, AsyncUnpacked } from "./types";
+export { AsyncParser, AsyncParserFunction, AsyncReturnType, AsyncUnpacked } from "./types";
 import asyncArray from "./array";
 import asyncMake from "./make";
 import asyncOneOf from "./oneOf";

@@ -1,13 +1,10 @@
-import { ParserFunction, ParseFunctionOptions } from "./types";
+import { ParseFunctionOptions } from "../types";
+import { ParserFunction } from "./types";
 import make from "./make";
 import basic from "./basic";
 import error from "../utils/error";
 
-export const handleNumber: ParserFunction<number> = (
-  payload,
-  path,
-  options
-) => {
+const handleNumber: ParserFunction<number> = (payload, path, options) => {
   if (typeof payload === "number") {
     return payload;
   } else if (
@@ -22,4 +19,4 @@ export const handleNumber: ParserFunction<number> = (
 };
 
 export default (options?: ParseFunctionOptions<number>) =>
-  make(basic(handleNumber), options);
+  make<number>(basic(handleNumber), options);

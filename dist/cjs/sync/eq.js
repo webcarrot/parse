@@ -1,20 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var make_1 = require("./make");
-var utils_1 = require("../utils");
+var basic_1 = require("./basic");
+var error_1 = require("../utils/error");
 var handleEq = function (payload, path, value) {
     if (payload === value) {
         return value;
     }
     else {
-        throw utils_1.error(value, path, payload);
+        throw error_1.default(value, path, payload);
     }
 };
-var makeEq = function (value) {
-    return function (payload, _, path) {
-        var U = handleEq(payload, path, value);
-        return U;
-    };
-};
-exports.default = (function (value, optional, nullable, convert, defaultValue) { return make_1.default(makeEq(value), optional, nullable, convert, defaultValue); });
+var makeEq = function (value) { return function (payload, path) {
+    return handleEq(payload, path, value);
+}; };
+exports.default = (function (value, options) {
+    return make_1.default(basic_1.default(makeEq(value)), options);
+});
 //# sourceMappingURL=eq.js.map

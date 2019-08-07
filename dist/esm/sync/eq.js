@@ -1,5 +1,6 @@
 import make from "./make";
-import { error } from "../utils";
+import basic from "./basic";
+import error from "../utils/error";
 const handleEq = (payload, path, value) => {
     if (payload === value) {
         return value;
@@ -8,11 +9,6 @@ const handleEq = (payload, path, value) => {
         throw error(value, path, payload);
     }
 };
-const makeEq = (value) => {
-    return (payload, _, path) => {
-        const U = handleEq(payload, path, value);
-        return U;
-    };
-};
-export default (value, optional, nullable, convert, defaultValue) => make(makeEq(value), optional, nullable, convert, defaultValue);
+const makeEq = (value) => (payload, path) => handleEq(payload, path, value);
+export default (value, options) => make(basic(makeEq(value)), options);
 //# sourceMappingURL=eq.js.map

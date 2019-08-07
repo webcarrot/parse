@@ -1,19 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var make_1 = require("./make");
-var utils_1 = require("../utils");
-exports.handleNumber = function (payload, convert, path) {
+var basic_1 = require("./basic");
+var error_1 = require("../utils/error");
+var handleNumber = function (payload, path, options) {
     if (typeof payload === "number") {
         return payload;
     }
-    else if (convert &&
+    else if (options.convert &&
         typeof payload === "string" &&
         /^-?\d+(\.\d+)?$/.test(payload)) {
         return parseFloat(payload);
     }
     else {
-        throw utils_1.error("Number", path, payload);
+        throw error_1.default("Number", path, payload);
     }
 };
-exports.default = (function (optional, nullable, convert, defaultValue) { return make_1.default(exports.handleNumber, optional, nullable, convert, defaultValue); });
+exports.default = (function (options) {
+    return make_1.default(basic_1.default(handleNumber), options);
+});
 //# sourceMappingURL=number.js.map

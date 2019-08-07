@@ -1,2 +1,4 @@
-declare const _default: <T>(value: T, optional?: boolean, nullable?: boolean, convert?: boolean, defaultValue?: T) => import("./types").MakeParserOut<T, any, import("./types").ParserFunction<T, any>>;
+import { ParseFunctionOptions } from "../types";
+import { ParserFunction } from "./types";
+declare const _default: <T>(value: T, options?: ParseFunctionOptions<T>) => import("./types").Parser<T, any, ParseFunctionOptions<T>, ParserFunction<T, any, ParseFunctionOptions<T>>>;
 export default _default;

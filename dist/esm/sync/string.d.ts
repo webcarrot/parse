@@ -1,4 +1,4 @@
+import { ParseFunctionOptions } from "../types";
 import { ParserFunction } from "./types";
-export declare const handleString: ParserFunction<string>;
-declare const _default: (optional?: boolean, nullable?: boolean, convert?: boolean, defaultValue?: string) => import("./types").MakeParserOut<string, any, ParserFunction<string, any>>;
+declare const _default: (options?: ParseFunctionOptions<string>) => import("./types").Parser<string, any, ParseFunctionOptions<string>, ParserFunction<string, any, ParseFunctionOptions<string>>>;
 export default _default;

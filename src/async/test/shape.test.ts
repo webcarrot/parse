@@ -2,7 +2,7 @@ import { asyncArray as array, asyncShape as shape } from "../";
 import { eq, string, number, boolean } from "../../sync";
 import { error } from "@webcarrot/parse/utils";
 
-describe("sync", () => {
+describe("async", () => {
   describe("shape", () => {
     test("A", () => {
       expect.assertions(1);
@@ -11,10 +11,10 @@ describe("sync", () => {
         array: array(
           shape({
             string: string(),
-            number: number().c,
-            boolean: boolean().c,
-            ostring: string().o,
-            nstring: string().n
+            number: number({ convert: true }),
+            boolean: boolean({ convert: true }),
+            ostring: string({ optional: true }),
+            nstring: string({ nullable: true })
           })
         )
       });

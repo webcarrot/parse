@@ -1,9 +1,10 @@
-import { ParserFunction, ParseFunctionOptions, MakeParserOut } from "./types";
+import { ParseFunctionOptions } from "../types";
+import { ParserFunction, Parser } from "./types";
 import make from "./make";
 import basic from "./basic";
 import { error, makePath } from "../utils";
 
-const handleArray = <T>(payload: any, path: string, type: MakeParserOut<T>) => {
+const handleArray = <T>(payload: any, path: string, type: Parser<T>) => {
   if (payload instanceof Array) {
     return payload.map((v, no) => type(v, makePath(path, no)));
   } else {
@@ -11,12 +12,10 @@ const handleArray = <T>(payload: any, path: string, type: MakeParserOut<T>) => {
   }
 };
 
-const makeArray = <T>(type: MakeParserOut<T>): ParserFunction<Array<T>> => (
+const makeArray = <T>(type: Parser<T>): ParserFunction<Array<T>> => (
   payload,
   path
 ) => handleArray(payload, path, type);
 
-export default <T>(
-  type: MakeParserOut<T>,
-  options?: ParseFunctionOptions<Array<T>>
-) => make(basic(makeArray(type)), options);
+export default <T>(type: Parser<T>, options?: ParseFunctionOptions<Array<T>>) =>
+  make<Array<T>>(basic(makeArray(type)), options);

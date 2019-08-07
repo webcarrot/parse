@@ -27,7 +27,7 @@ describe("sync", () => {
       expect(parser(null)).toEqual(false);
     });
     test("string", () => {
-      const parser = eq("A");
+      const parser = eq<"A">("A");
       expect(parser("A")).toEqual("A");
     });
     test("number", () => {

@@ -19,17 +19,18 @@ describe("sync", () => {
       };
       const parser = oneOf([
         shape({
-          method: eq("GET"),
+          method: eq<"GET">("GET"),
           ...base
         }),
         shape({
-          method: eq("POST"),
+          method: eq<"POST">("POST"),
           ...base,
           body: shape({
             id: number({ convert: true })
           })
         })
       ]);
+
       expect(
         parser({
           method: "POST",

@@ -1,3 +1,4 @@
-import { AsyncParserFunction, AsyncMakeParserOut } from "./types";
-declare const make: <PF extends AsyncParserFunction<any, any>>(fn: PF, optional?: boolean, nullable?: boolean, convert?: boolean, defaultValue?: import("./types").AsyncUnpacked<ReturnType<PF>>, wrap?: boolean) => AsyncMakeParserOut<PF>;
+import { ParseFunctionOptions } from "../types";
+import { AsyncParserFunction, AsyncParser } from "./types";
+declare const make: <Output, Payload = any, Options extends ParseFunctionOptions<Output> = ParseFunctionOptions<Output>, PF extends AsyncParserFunction<Output, Payload, Options> = AsyncParserFunction<Output, Payload, Options>>(fn: PF, options?: Options) => AsyncParser<Output, any, ParseFunctionOptions<Output>, import("..").ParserFunction<Output, any, ParseFunctionOptions<Output>>>;
 export default make;

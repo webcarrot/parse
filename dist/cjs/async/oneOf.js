@@ -1,18 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var make_1 = require("./make");
-var utils_1 = require("../utils");
-exports.handleOnOf = function (payload, path, types) {
+var basic_1 = require("./basic");
+var error_1 = require("../utils/error");
+var handleOneOf = function (payload, path, types) {
     return types
         .reduce(function (out, type) { return out.catch(function () { return type(payload, path); }); }, Promise.reject())
         .catch(function () {
-        throw utils_1.error("One of", path, payload);
+        throw error_1.default("One of", path, payload);
     });
 };
-exports.makeOnOf = function (types) { return function (payload, _, path) {
-    return exports.handleOnOf(payload, path, types);
+var makeOneOf = function (types) { return function (payload, path) {
+    return handleOneOf(payload, path, types);
 }; };
-exports.default = (function (types, optional, nullable, convert, defaultValue) {
-    return make_1.default(exports.makeOnOf(types), optional, nullable, convert, defaultValue);
-});
+exports.default = (function (types, options) { return make_1.default(basic_1.default(makeOneOf(types)), options); });
 //# sourceMappingURL=oneOf.js.map
