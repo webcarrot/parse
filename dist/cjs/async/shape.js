@@ -38,5 +38,8 @@ var handleShape = function (payload, path, data, keys) {
 var makeShape = function (data) { return function (payload, path) {
     return handleShape(payload, path, data, Object.keys(data));
 }; };
-exports.default = (function (data, options) { return make_1.default(basic_1.default(makeShape(data)), options); });
+function shape(data, options) {
+    return make_1.default(basic_1.default(makeShape(data)), options);
+}
+exports.default = shape;
 //# sourceMappingURL=shape.js.map

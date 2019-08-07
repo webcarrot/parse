@@ -60,10 +60,18 @@ const makeShape = <
     Extract<keyof Shape, string>
   >);
 
-export default <
+function shape<V extends { [key: string]: any }>(
+  data: { [K in keyof V]: Parser<V[K]> | AsyncParser<V[K]> },
+  options?: ParseFunctionOptions<V>
+): AsyncParser<V>;
+function shape<
   MPO extends Parser<any> | AsyncParser<any>,
   Shape extends { [key: string]: MPO }
 >(
   data: Shape,
   options?: ParseFunctionOptions<ShapeReturnType<Shape>>
-) => make<ShapeReturnType<Shape>>(basic(makeShape(data)), options);
+): AsyncParser<ShapeReturnType<Shape>> {
+  return make<ShapeReturnType<Shape>>(basic(makeShape(data)), options);
+}
+
+export default shape;

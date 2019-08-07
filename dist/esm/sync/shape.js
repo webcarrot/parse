@@ -16,5 +16,8 @@ const handleShape = (payload, path, data) => {
     return out;
 };
 const makeShape = (data) => (payload, path) => handleShape(payload, path, data);
-export default (data, options) => make(basic(makeShape(data)), options);
+function shape(data, options) {
+    return make(basic(makeShape(data)), options);
+}
+export default shape;
 //# sourceMappingURL=shape.js.map

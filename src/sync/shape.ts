@@ -34,7 +34,15 @@ const makeShape = <T extends Parser<any>, S extends { [key: string]: T }>(
 ): ParserFunction<ShapeReturnType<S>> => (payload, path) =>
   handleShape(payload, path, data);
 
-export default <MPO extends Parser<any>, Shape extends { [key: string]: MPO }>(
+function shape<V extends { [key: string]: any }>(
+  data: { [K in keyof V]: Parser<V[K]> },
+  options?: ParseFunctionOptions<V>
+): Parser<V>;
+function shape<MPO extends Parser<any>, Shape extends { [key: string]: MPO }>(
   data: Shape,
   options?: ParseFunctionOptions<ShapeReturnType<Shape>>
-) => make<ShapeReturnType<Shape>>(basic(makeShape(data)), options);
+): Parser<ShapeReturnType<Shape>> {
+  return make<ShapeReturnType<Shape>>(basic(makeShape(data)), options);
+}
+
+export default shape;

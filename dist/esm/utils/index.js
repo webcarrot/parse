@@ -1,4 +1,4 @@
-import makePath from "./makePath";
 import error from "./error";
-export { makePath, error };
+import makePath from "./makePath";
+export { error, makePath };
 //# sourceMappingURL=index.js.map

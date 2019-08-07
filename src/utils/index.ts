@@ -1,4 +1,4 @@
-import makePath from "./makePath";
 import error from "./error";
+import makePath from "./makePath";
 
-export { makePath, error };
+export { error, makePath };

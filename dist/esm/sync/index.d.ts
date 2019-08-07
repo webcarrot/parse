@@ -1,4 +1,3 @@
-export { Parser, ParserFunction } from "./types";
 import array from "./array";
 import basic from "./basic";
 import boolean from "./boolean";
