@@ -11,19 +11,19 @@ describe("sync", () => {
       expect(parser(false)).toEqual(false);
     });
     test("default true from undefined", () => {
-      const parser = eq(true).d(true);
+      const parser = eq(true, { default: true });
       expect(parser(undefined)).toEqual(true);
     });
     test("default false from undefined", () => {
-      const parser = eq(false).d(false);
+      const parser = eq(false, { default: false });
       expect(parser(undefined)).toEqual(false);
     });
     test("default true from null", () => {
-      const parser = eq(true).d(true);
+      const parser = eq(true, { default: true });
       expect(parser(null)).toEqual(true);
     });
     test("default false from null", () => {
-      const parser = eq(false).d(false);
+      const parser = eq(false, { default: false });
       expect(parser(null)).toEqual(false);
     });
     test("string", () => {

@@ -1,21 +1,18 @@
-import { ParserFunction } from "./types";
+import { ParserFunction, ParseFunctionOptions } from "./types";
 import make from "./make";
-import { error } from "../utils";
+import basic from "./basic";
+import error from "../utils/error";
 
 export const handleString: ParserFunction<string> = (
   payload,
-  convert,
-  path
+  path,
+  options
 ) => {
-  if (!convert && typeof payload !== "string") {
+  if (!options.convert && typeof payload !== "string") {
     throw error("string", path, payload);
   }
   return `${payload}`;
 };
 
-export default (
-  optional?: boolean,
-  nullable?: boolean,
-  convert?: boolean,
-  defaultValue?: string
-) => make(handleString, optional, nullable, convert, defaultValue);
+export default (options?: ParseFunctionOptions<string>) =>
+  make(basic(handleString), options);

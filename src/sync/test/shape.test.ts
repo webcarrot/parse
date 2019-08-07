@@ -8,10 +8,10 @@ describe("sync", () => {
         array: array(
           shape({
             string: string(),
-            number: number().c,
-            boolean: boolean().c,
-            ostring: string().o,
-            nstring: string().n
+            number: number({ convert: true }),
+            boolean: boolean({ convert: true }),
+            ostring: string({ optional: true }),
+            nstring: string({ nullable: true })
           })
         )
       });

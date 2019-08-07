@@ -1,17 +1,14 @@
-import { ParserFunction } from "./types";
+import { ParserFunction, ParseFunctionOptions } from "./types";
 import make from "./make";
-import { error } from "../utils";
+import basic from "./basic";
+import error from "../utils/error";
 
-const handleBoolean: ParserFunction<boolean> = (payload, convert, path) => {
-  if (!convert && typeof payload !== "boolean") {
+const handleBoolean: ParserFunction<boolean> = (payload, path, options) => {
+  if (!options.convert && typeof payload !== "boolean") {
     throw error("Boolean", payload, path);
   }
   return !!payload;
 };
 
-export default (
-  optional?: boolean,
-  nullable?: boolean,
-  convert?: boolean,
-  defaultValue?: boolean
-) => make(handleBoolean, optional, nullable, convert, defaultValue);
+export default (options?: ParseFunctionOptions<boolean>) =>
+  make(basic(handleBoolean), options);

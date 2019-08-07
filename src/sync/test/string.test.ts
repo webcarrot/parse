@@ -7,19 +7,19 @@ describe("sync", () => {
       expect(parser("A")).toEqual("A");
     });
     test("default A from undefined", () => {
-      const parser = string().d("A");
+      const parser = string({ default: "A" });
       expect(parser(undefined)).toEqual("A");
     });
     test("default A from null", () => {
-      const parser = string().d("A");
+      const parser = string({ default: "A" });
       expect(parser(null)).toEqual("A");
     });
     test("convert number", () => {
-      const parser = string().c;
+      const parser = string({ convert: true });
       expect(parser(1)).toEqual("1");
     });
     test("convert boolean", () => {
-      const parser = string().c;
+      const parser = string({ convert: true });
       expect(parser(false)).toEqual("false");
     });
     test("should throw", () => {

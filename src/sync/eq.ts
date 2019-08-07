@@ -1,5 +1,7 @@
+import { ParserFunction, ParseFunctionOptions } from "./types";
 import make from "./make";
-import { error } from "../utils";
+import basic from "./basic";
+import error from "../utils/error";
 
 const handleEq = <T>(payload: any, path: string, value: T) => {
   if (payload === value) {
@@ -9,17 +11,8 @@ const handleEq = <T>(payload: any, path: string, value: T) => {
   }
 };
 
-const makeEq = <T>(value: T) => {
-  return (payload: any, _: boolean, path: string) => {
-    const U = handleEq(payload, path, value);
-    return U as typeof U;
-  };
-};
+export const makeEq = <T>(value: T): ParserFunction<T> => (payload, path) =>
+  handleEq(payload, path, value);
 
-export default <T>(
-  value: T,
-  optional?: boolean,
-  nullable?: boolean,
-  convert?: boolean,
-  defaultValue?: T
-) => make(makeEq(value), optional, nullable, convert, defaultValue);
+export default <T>(value: T, options?: ParseFunctionOptions<T>) =>
+  make(basic(makeEq(value)), options);

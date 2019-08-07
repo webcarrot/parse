@@ -1,5 +1,6 @@
-import { ParserFunction, MakeParserOut } from "./types";
+import { ParserFunction, ParseFunctionOptions, MakeParserOut } from "./types";
 import make from "./make";
+import basic from "./basic";
 import { error, makePath } from "../utils";
 
 export const isPlainObject = (e: any): boolean =>
@@ -35,13 +36,10 @@ export const makeShape = <
   S extends { [key: string]: T }
 >(
   data: S
-): ParserFunction<ShapeReturnType<S>> => (payload, _, path) =>
+): ParserFunction<ShapeReturnType<S>> => (payload, path) =>
   handleShape(payload, path, data);
 
 export default <T extends MakeParserOut<any>, S extends { [key: string]: T }>(
   data: S,
-  optional?: boolean,
-  nullable?: boolean,
-  convert?: boolean,
-  defaultValue?: ShapeReturnType<S>
-) => make(makeShape(data), optional, nullable, convert, defaultValue);
+  options?: ParseFunctionOptions<ShapeReturnType<S>>
+) => make(basic(makeShape(data)), options);

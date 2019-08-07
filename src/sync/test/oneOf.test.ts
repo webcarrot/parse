@@ -4,12 +4,18 @@ describe("sync", () => {
   describe("oneOf", () => {
     test("A", () => {
       const base = {
-        query: shape({
-          q: string().o
-        }).o,
-        params: shape({
-          id: string().o
-        }).o
+        query: shape(
+          {
+            q: string({ optional: true })
+          },
+          { optional: true }
+        ),
+        params: shape(
+          {
+            id: string({ optional: true })
+          },
+          { optional: true }
+        )
       };
       const parser = oneOf([
         shape({
@@ -20,7 +26,7 @@ describe("sync", () => {
           method: eq("POST"),
           ...base,
           body: shape({
-            id: number().c
+            id: number({ convert: true })
           })
         })
       ]);
@@ -41,12 +47,18 @@ describe("sync", () => {
     });
     test("should throw", () => {
       const base = {
-        query: shape({
-          q: string().o
-        }).o,
-        params: shape({
-          id: string().o
-        }).o
+        query: shape(
+          {
+            q: string({ optional: true })
+          },
+          { optional: true }
+        ),
+        params: shape(
+          {
+            id: string({ optional: true })
+          },
+          { optional: true }
+        )
       };
 
       const parser = oneOf([
@@ -58,7 +70,7 @@ describe("sync", () => {
           method: eq<"POST">("POST"),
           ...base,
           body: shape({
-            id: string().n
+            id: string({ nullable: true })
           })
         })
       ]);

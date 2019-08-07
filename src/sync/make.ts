@@ -1,100 +1,40 @@
-import { ParserFunction, MakeParserOut } from "./types";
-import { error } from "../utils";
+import { ParserFunction, MakeParserOut, ParseFunctionOptions } from "./types";
 
-const make = <T, PF extends ParserFunction<T> = ParserFunction<T>>(
+const make = <
+  Output,
+  Payload = any,
+  Options extends ParseFunctionOptions<Output> = ParseFunctionOptions<Output>,
+  PF extends ParserFunction<Output, Payload, Options> = ParserFunction<
+    Output,
+    Payload,
+    Options
+  >
+>(
   fn: PF,
-  optional: boolean = false,
-  nullable: boolean = false,
-  convert: boolean = false,
-  defaultValue: T = undefined,
-  wrap: boolean = true
-): MakeParserOut<T> => {
-  const fWrap: typeof fn = wrap
-    ? (((payload, _, path) => {
-        if (nullable && payload === null) {
-          return null;
-        }
-        if (payload === undefined || payload === null) {
-          if (defaultValue !== undefined) {
-            return defaultValue;
-          } else if (!optional) {
-            throw error("Required", path, payload);
-          } else {
-            return;
-          }
-        }
-        return fn(payload, convert, path);
-      }) as typeof fn)
-    : fn;
+  options: Options = {} as Options
+): MakeParserOut<Output> => {
   const handler = ((payload: any, path: string = "") =>
-    fWrap(payload, convert, path)) as MakeParserOut<T>;
-  Object.defineProperties(handler, {
-    o: {
-      get() {
-        return make(fn, true, nullable, convert, defaultValue);
+    fn(payload, path, options)) as MakeParserOut<Output, Payload, Options>;
+  handler.then = onSuccess =>
+    make((payload, path) =>
+      onSuccess(fn(payload, path, options), path)
+    ) as typeof onSuccess;
+  handler.catch = onError =>
+    make((payload, path) => {
+      try {
+        return fn(payload, path, options);
+      } catch (_) {
+        return onError(payload, path);
       }
-    },
-    optional: {
-      value: (optional: boolean = true) => {
-        return make(fn, optional, nullable, convert, defaultValue);
+    }) as typeof onError;
+  handler.finally = onFinnaly =>
+    make((payload, path) => {
+      try {
+        return onFinnaly(fn(payload, path, options), path);
+      } catch (_) {
+        return onFinnaly(payload, path);
       }
-    },
-    n: {
-      get() {
-        return make(fn, optional, true, convert, defaultValue);
-      }
-    },
-    nullable: {
-      value: (nullable: boolean = true) => {
-        return make(fn, optional, nullable, convert, defaultValue);
-      }
-    },
-    c: {
-      get() {
-        return make(fn, optional, nullable, true, defaultValue);
-      }
-    },
-    convert: {
-      value: (convert: boolean = true) => {
-        return make(fn, optional, nullable, convert, defaultValue);
-      }
-    },
-    d: {
-      value: (defaultValue?: any) => {
-        return make(fn, optional, nullable, convert, defaultValue);
-      }
-    },
-    then: {
-      value: <FSuccess extends ParserFunction<any, T>>(onSuccess: FSuccess) => {
-        return make(
-          (payload: any, convert: boolean, path?: string) =>
-            onSuccess(fWrap(payload, convert, path), convert, path),
-          optional,
-          nullable,
-          convert,
-          defaultValue
-        );
-      }
-    },
-    catch: {
-      value: <FError extends ParserFunction<any, T>>(onError: FError) => {
-        return make(
-          (payload: any, convert: boolean, path?: string) => {
-            try {
-              return fWrap(payload, convert, path);
-            } catch (_) {
-              return onError(payload, convert, path);
-            }
-          },
-          optional,
-          nullable,
-          convert,
-          defaultValue,
-          false
-        );
-      }
-    }
-  });
+    }) as typeof onFinnaly;
   return handler;
 };
 

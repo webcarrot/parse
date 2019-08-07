@@ -11,27 +11,27 @@ describe("sync", () => {
       expect(parser(false)).toEqual(false);
     });
     test("default true from undefined", () => {
-      const parser = boolean().d(true);
+      const parser = boolean({ default: true });
       expect(parser(undefined)).toEqual(true);
     });
     test("default false from undefined", () => {
-      const parser = boolean().d(false);
+      const parser = boolean({ default: false });
       expect(parser(undefined)).toEqual(false);
     });
     test("default true from null", () => {
-      const parser = boolean().d(true);
+      const parser = boolean({ default: true });
       expect(parser(null)).toEqual(true);
     });
     test("default false from null", () => {
-      const parser = boolean().d(false);
+      const parser = boolean({ default: false });
       expect(parser(null)).toEqual(false);
     });
     test("convert true", () => {
-      const parser = boolean().c;
+      const parser = boolean({ convert: true });
       expect(parser("whatever")).toEqual(true);
     });
     test("convert false", () => {
-      const parser = boolean().c;
+      const parser = boolean({ convert: true });
       expect(parser("")).toEqual(false);
     });
     test("should throw", () => {

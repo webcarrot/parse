@@ -8,7 +8,7 @@ describe("sync", () => {
       expect(parser([1])).toMatchObject([1]);
     });
     test("array of numbers from array of strings", () => {
-      const parser = array(number().c);
+      const parser = array(number({ convert: true }));
       expect(parser(["1", "2", 3, "4.5"])).toMatchObject([1, 2, 3, 4.5]);
     });
     test("should throw", () => {
@@ -30,11 +30,11 @@ describe("sync", () => {
       }).toThrow(error("Number", "some.path[1]", "2"));
     });
     test("nullable", () => {
-      const parser = array(number().c).n;
+      const parser = array(number({ convert: true }), { nullable: true });
       expect(parser(null)).toEqual(null);
     });
     test("default", () => {
-      const parser = array(number().c).d([2]);
+      const parser = array(number({ convert: true }), { default: [2] });
       expect(parser(undefined)).toMatchObject([2]);
     });
   });
