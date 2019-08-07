@@ -3,10 +3,11 @@ import { ParseFunctionOptions } from "../types";
 import { AsyncParserFunction, AsyncParser, AsyncReturnType } from "./types";
 import make from "./make";
 import basic from "./basic";
-import { error, makePath } from "../utils";
+import { error, isPlainObject, makePath } from "../utils";
 
-export const isPlainObject = (e: any): boolean =>
-  e !== null && typeof e === "object" && e.constructor === Object;
+type ShapeReturnType<
+  S extends { [key: string]: Parser<any> | AsyncParser<any> }
+> = { [K in keyof S]: AsyncReturnType<S[K]> };
 
 const handleShape = <
   T extends Parser<any> | AsyncParser<any>,
@@ -46,10 +47,6 @@ const handleShape = <
   );
 };
 
-type ShapeReturnType<
-  S extends { [key: string]: Parser<any> | AsyncParser<any> }
-> = { [K in keyof S]: AsyncReturnType<S[K]> };
-
 const makeShape = <
   MPO extends Parser<any> | AsyncParser<any>,
   Shape extends { [key: string]: MPO }
@@ -60,11 +57,11 @@ const makeShape = <
     Extract<keyof Shape, string>
   >);
 
-function shape<V extends { [key: string]: any }>(
+export default function<V extends { [key: string]: any }>(
   data: { [K in keyof V]: Parser<V[K]> | AsyncParser<V[K]> },
   options?: ParseFunctionOptions<V>
 ): AsyncParser<V>;
-function shape<
+export default function<
   MPO extends Parser<any> | AsyncParser<any>,
   Shape extends { [key: string]: MPO }
 >(
@@ -73,5 +70,3 @@ function shape<
 ): AsyncParser<ShapeReturnType<Shape>> {
   return make<ShapeReturnType<Shape>>(basic(makeShape(data)), options);
 }
-
-export default shape;

@@ -13,8 +13,8 @@ var handleOneOf = function (payload, path, types) {
 var makeOneOf = function (types) { return function (payload, path) {
     return handleOneOf(payload, path, types);
 }; };
-function onOff(types, options) {
+function default_1(types, options) {
     return make_1.default(basic_1.default(makeOneOf(types)), options);
 }
-exports.default = onOff;
+exports.default = default_1;
 //# sourceMappingURL=oneOf.js.map

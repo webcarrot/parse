@@ -22,15 +22,13 @@ const makeOneOf = <T extends Parser<any>>(
 ): ParserFunction<ReturnType<T>> => (payload, path) =>
   handleOneOf(payload, path, types);
 
-function onOff<V>(
+export default function<V>(
   types: Parser<V>[],
   options?: ParseFunctionOptions<V>
 ): Parser<V>;
-function onOff<T extends Parser<any>>(
+export default function<V, T extends Parser<V>>(
   types: T[],
   options?: ParseFunctionOptions<ReturnType<T>>
 ): Parser<ReturnType<T>> {
   return make<ReturnType<T>>(basic(makeOneOf(types)), options);
 }
-
-export default onOff;

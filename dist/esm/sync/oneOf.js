@@ -11,8 +11,7 @@ const handleOneOf = (payload, path, types) => {
     throw error("One of", path, payload);
 };
 const makeOneOf = (types) => (payload, path) => handleOneOf(payload, path, types);
-function onOff(types, options) {
+export default function (types, options) {
     return make(basic(makeOneOf(types)), options);
 }
-export default onOff;
 //# sourceMappingURL=oneOf.js.map

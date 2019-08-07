@@ -3,11 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var make_1 = require("./make");
 var basic_1 = require("./basic");
 var utils_1 = require("../utils");
-exports.isPlainObject = function (e) {
-    return e !== null && typeof e === "object" && e.constructor === Object;
-};
 var handleShape = function (payload, path, data, keys) {
-    if (!exports.isPlainObject(payload)) {
+    if (!utils_1.isPlainObject(payload)) {
         return Promise.reject(utils_1.error("Object", path, payload));
     }
     return keys.reduce(function (p, key) {
@@ -38,8 +35,8 @@ var handleShape = function (payload, path, data, keys) {
 var makeShape = function (data) { return function (payload, path) {
     return handleShape(payload, path, data, Object.keys(data));
 }; };
-function shape(data, options) {
+function default_1(data, options) {
     return make_1.default(basic_1.default(makeShape(data)), options);
 }
-exports.default = shape;
+exports.default = default_1;
 //# sourceMappingURL=shape.js.map

@@ -1,4 +1,5 @@
 import error from "./error";
+import isPlainObject from "./isPlainObject";
 import makePath from "./makePath";
-export { error, makePath };
+export { error, isPlainObject, makePath };
 //# sourceMappingURL=index.js.map

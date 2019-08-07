@@ -24,15 +24,13 @@ const makeOneOf = <T extends Parser<any> | AsyncParser<any>>(
 ): AsyncParserFunction<AsyncReturnType<T>> => (payload, path) =>
   handleOneOf(payload, path, types);
 
-function onOff<V>(
+export default function<V>(
   types: Array<Parser<V> | AsyncParser<V>>,
   options?: ParseFunctionOptions<V>
 ): AsyncParser<V>;
-function onOff<T extends Parser<any> | AsyncParser<any>>(
+export default function<T extends Parser<any> | AsyncParser<any>>(
   types: T[],
   options?: ParseFunctionOptions<AsyncReturnType<T>>
 ): AsyncParser<AsyncReturnType<T>> {
   return make<AsyncReturnType<T>>(basic(makeOneOf(types)), options);
 }
-
-export default onOff;
