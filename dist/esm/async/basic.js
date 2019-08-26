@@ -8,7 +8,7 @@ export default (fn) => (payload, path, options) => {
             return Promise.resolve(options.default);
         }
         else if (!options.optional) {
-            throw Promise.reject(error("Required", path, payload));
+            throw Promise.reject(error("Value is required", path, payload));
         }
         else {
             return Promise.resolve();

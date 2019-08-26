@@ -10,7 +10,7 @@ exports.default = (function (fn) { return function (payload, path, options) {
             return options.default;
         }
         else if (!options.optional) {
-            throw error_1.default("Required", path, payload);
+            throw error_1.default("Value is required", path, payload);
         }
         else {
             return;

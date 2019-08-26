@@ -5,7 +5,7 @@ var basic_1 = require("./basic");
 var error_1 = require("../utils/error");
 var handleBoolean = function (payload, path, options) {
     if (!options.convert && typeof payload !== "boolean") {
-        throw error_1.default("Boolean", payload, path);
+        throw error_1.default("Expected boolean value", payload, path);
     }
     return !!payload;
 };

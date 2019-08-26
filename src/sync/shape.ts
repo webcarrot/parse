@@ -5,7 +5,7 @@ import basic from "./basic";
 import { error, isPlainObject, makePath } from "../utils";
 
 type ShapeReturnType<S extends { [key: string]: Parser<any> }> = {
-  [K in keyof S]?: ReturnType<S[K]>
+  [K in keyof S]?: ReturnType<S[K]>;
 };
 
 const handleShape = <T extends Parser<any>, S extends { [key: string]: T }>(
@@ -14,7 +14,7 @@ const handleShape = <T extends Parser<any>, S extends { [key: string]: T }>(
   data: S
 ) => {
   if (!isPlainObject(payload)) {
-    throw error("Object", path, payload);
+    throw error("Value is not an plain object", path, payload);
   }
   const out = {} as ShapeReturnType<typeof data>;
   for (let i in data) {
@@ -41,6 +41,7 @@ export default function<
 >(
   data: Shape,
   options?: ParseFunctionOptions<ShapeReturnType<Shape>>
-): Parser<ShapeReturnType<Shape>> {
-  return make<ShapeReturnType<Shape>>(basic(makeShape(data)), options);
+): Parser<ShapeReturnType<Shape>>;
+export default function(data: any, options?: any): any {
+  return make(basic(makeShape(data)), options);
 }

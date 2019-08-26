@@ -5,7 +5,7 @@ var basic_1 = require("./basic");
 var utils_1 = require("../utils");
 var handleShape = function (payload, path, data, keys) {
     if (!utils_1.isPlainObject(payload)) {
-        return Promise.reject(utils_1.error("Object", path, payload));
+        return Promise.reject(utils_1.error("Value is not an plain object", path, payload));
     }
     return keys.reduce(function (p, key) {
         return p.then(function (out) {

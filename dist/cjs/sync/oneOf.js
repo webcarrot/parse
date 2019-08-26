@@ -10,7 +10,7 @@ var handleOneOf = function (payload, path, types) {
         }
         catch (_) { }
     }
-    throw error_1.default("One of", path, payload);
+    throw error_1.default("Value not match", path, payload);
 };
 var makeOneOf = function (types) { return function (payload, path) {
     return handleOneOf(payload, path, types);

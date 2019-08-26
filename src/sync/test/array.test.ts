@@ -15,19 +15,19 @@ describe("sync", () => {
       const parser = array(number());
       expect(() => {
         parser(123, "some.path");
-      }).toThrow(error("Array", "some.path", 123));
+      }).toThrow(error("Expect array of type", "some.path", 123));
     });
     test("should throw and print index", () => {
       const parser = array(number());
       expect(() => {
         parser([1, "2", 3]);
-      }).toThrow(error("Number", "[1]", "2"));
+      }).toThrow(error("Expected numeric value", "[1]", "2"));
     });
     test("should throw and print index", () => {
       const parser = array(number());
       expect(() => {
         parser([1, "2", 3], "some.path");
-      }).toThrow(error("Number", "some.path[1]", "2"));
+      }).toThrow(error("Expected numeric value", "some.path[1]", "2"));
     });
     test("nullable", () => {
       const parser = array(number({ convert: true }), { nullable: true });

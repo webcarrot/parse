@@ -8,7 +8,7 @@ export default (fn) => (payload, path, options) => {
             return options.default;
         }
         else if (!options.optional) {
-            throw error("Required", path, payload);
+            throw error("Value is required", path, payload);
         }
         else {
             return;

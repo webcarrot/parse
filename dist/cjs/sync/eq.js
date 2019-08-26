@@ -8,7 +8,7 @@ var handleEq = function (payload, path, value) {
         return value;
     }
     else {
-        throw error_1.default(value, path, payload);
+        throw error_1.default("Expected value equal to " + value, path, payload);
     }
 };
 var makeEq = function (value) { return function (payload, path) {

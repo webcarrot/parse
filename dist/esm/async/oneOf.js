@@ -4,7 +4,7 @@ import error from "../utils/error";
 const handleOneOf = (payload, path, types) => types
     .reduce((out, type) => out.catch(() => type(payload, path)), Promise.reject())
     .catch(() => {
-    throw error("One of", path, payload);
+    throw error("Value not match", path, payload);
 });
 const makeOneOf = (types) => (payload, path) => handleOneOf(payload, path, types);
 export default function (types, options) {

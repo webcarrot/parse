@@ -6,7 +6,7 @@ const handleEq = (payload, path, value) => {
         return value;
     }
     else {
-        throw error(value, path, payload);
+        throw error(`Expected value equal to ${value}`, path, payload);
     }
 };
 const makeEq = (value) => (payload, path) => handleEq(payload, path, value);

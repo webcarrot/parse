@@ -19,7 +19,7 @@ const handleShape = <
   keys: Array<Extract<keyof S, string>>
 ) => {
   if (!isPlainObject(payload)) {
-    return Promise.reject(error("Object", path, payload));
+    return Promise.reject(error("Value is not an plain object", path, payload));
   }
   return keys.reduce(
     (p, key) =>
@@ -67,6 +67,7 @@ export default function<
 >(
   data: Shape,
   options?: ParseFunctionOptions<ShapeReturnType<Shape>>
-): AsyncParser<ShapeReturnType<Shape>> {
-  return make<ShapeReturnType<Shape>>(basic(makeShape(data)), options);
+): AsyncParser<ShapeReturnType<Shape>>;
+export default function(data: any, options?: any): any {
+  return make(basic(makeShape(data)), options);
 }

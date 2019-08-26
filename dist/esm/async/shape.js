@@ -3,7 +3,7 @@ import basic from "./basic";
 import { error, isPlainObject, makePath } from "../utils";
 const handleShape = (payload, path, data, keys) => {
     if (!isPlainObject(payload)) {
-        return Promise.reject(error("Object", path, payload));
+        return Promise.reject(error("Value is not an plain object", path, payload));
     }
     return keys.reduce((p, key) => p.then(out => {
         try {

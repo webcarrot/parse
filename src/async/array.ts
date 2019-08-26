@@ -21,7 +21,7 @@ const handleArray = <T extends Parser<any> | AsyncParser<any>>(
       })
     );
   } else {
-    return Promise.reject(error("Array", path, payload));
+    return Promise.reject(error("Expect array of type", path, payload));
   }
 };
 

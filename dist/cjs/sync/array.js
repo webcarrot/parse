@@ -8,7 +8,7 @@ var handleArray = function (payload, path, type) {
         return payload.map(function (v, no) { return type(v, utils_1.makePath(path, no)); });
     }
     else {
-        throw utils_1.error("Array", path, payload);
+        throw utils_1.error("Expect array of type", path, payload);
     }
 };
 var makeArray = function (type) { return function (payload, path) { return handleArray(payload, path, type); }; };

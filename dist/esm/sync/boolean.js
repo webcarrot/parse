@@ -3,7 +3,7 @@ import basic from "./basic";
 import error from "../utils/error";
 const handleBoolean = (payload, path, options) => {
     if (!options.convert && typeof payload !== "boolean") {
-        throw error("Boolean", payload, path);
+        throw error("Expected boolean value", payload, path);
     }
     return !!payload;
 };

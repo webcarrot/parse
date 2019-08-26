@@ -8,7 +8,7 @@ const handleArray = <T>(payload: any, path: string, type: Parser<T>) => {
   if (payload instanceof Array) {
     return payload.map((v, no) => type(v, makePath(path, no)));
   } else {
-    throw error("Array", path, payload);
+    throw error("Expect array of type", path, payload);
   }
 };
 

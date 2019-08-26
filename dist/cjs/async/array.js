@@ -15,7 +15,7 @@ var handleArray = function (payload, path, type) {
         }));
     }
     else {
-        return Promise.reject(utils_1.error("Array", path, payload));
+        return Promise.reject(utils_1.error("Expect array of type", path, payload));
     }
 };
 var makeArray = function (type) { return function (payload, path) {

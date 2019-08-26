@@ -7,7 +7,7 @@ var handleOneOf = function (payload, path, types) {
     return types
         .reduce(function (out, type) { return out.catch(function () { return type(payload, path); }); }, Promise.reject())
         .catch(function () {
-        throw error_1.default("One of", path, payload);
+        throw error_1.default("Value not match", path, payload);
     });
 };
 var makeOneOf = function (types) { return function (payload, path) {

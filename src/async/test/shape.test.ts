@@ -83,7 +83,7 @@ describe("async", () => {
             }
           ]
         })
-      ).rejects.toMatchObject(error("eq", ".eq", "ss"));
+      ).rejects.toMatchObject(error("Expected value equal to eq", ".eq", "ss"));
     });
   });
 });

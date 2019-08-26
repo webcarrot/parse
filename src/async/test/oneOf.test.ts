@@ -82,7 +82,7 @@ describe("async", () => {
           method: "POST"
         })
       ).rejects.toMatchObject(
-        error("One of", "", {
+        error("Value not match", "", {
           method: "POST"
         })
       );

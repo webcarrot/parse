@@ -1,0 +1,1 @@
+{"version":3,"file":"emitError.js","sourceRoot":"","sources":["../../../src/sync/emitError.ts"],"names":[],"mappings":";;AACA,+BAA0B;AAC1B,wCAAmC;AAEnC,IAAM,aAAa,GAAG,UAAC,KAAa,IAA4B,OAAA,UAC9D,OAAO,EACP,IAAI;IAEJ,MAAM,eAAK,CAAC,KAAK,EAAE,IAAI,EAAE,OAAO,CAAC,CAAC;AACpC,CAAC,EAL+D,CAK/D,CAAC;AAEF,mBAAe,UAAC,KAAa,IAAK,OAAA,cAAI,CAAQ,aAAa,CAAC,KAAK,CAAC,CAAC,EAAjC,CAAiC,EAAC"}

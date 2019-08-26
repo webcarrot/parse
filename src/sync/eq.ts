@@ -8,7 +8,7 @@ const handleEq = <T>(payload: any, path: string, value: T) => {
   if (payload === value) {
     return value;
   } else {
-    throw error(value, path, payload);
+    throw error(`Expected value equal to ${value}`, path, payload);
   }
 };
 

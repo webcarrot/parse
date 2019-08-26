@@ -6,7 +6,7 @@ const handleArray = (payload, path, type) => {
         return payload.map((v, no) => type(v, makePath(path, no)));
     }
     else {
-        throw error("Array", path, payload);
+        throw error("Expect array of type", path, payload);
     }
 };
 const makeArray = (type) => (payload, path) => handleArray(payload, path, type);

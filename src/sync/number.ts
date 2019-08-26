@@ -4,19 +4,36 @@ import make from "./make";
 import basic from "./basic";
 import error from "../utils/error";
 
-const handleNumber: ParserFunction<number> = (payload, path, options) => {
+type NumberParseFunctionOptions = ParseFunctionOptions<number> & {
+  min?: number;
+  max?: number;
+};
+
+const handleNumber: ParserFunction<number, any, NumberParseFunctionOptions> = (
+  payload,
+  path,
+  options
+) => {
+  let value: number;
   if (typeof payload === "number") {
-    return payload;
+    value = payload;
   } else if (
     options.convert &&
     typeof payload === "string" &&
     /^-?\d+(\.\d+)?$/.test(payload)
   ) {
-    return parseFloat(payload);
+    value = parseFloat(payload);
   } else {
-    throw error("Number", path, payload);
+    throw error("Expected numeric value", path, payload);
   }
+  if (options.min !== undefined && options.min > value) {
+    throw error(`Expected number greater than ${options.min}`, path, payload);
+  }
+  if (options.max !== undefined && options.max < value) {
+    throw error(`Expected number lower than ${options.min}`, path, payload);
+  }
+  return value;
 };
 
-export default (options?: ParseFunctionOptions<number>) =>
+export default (options?: NumberParseFunctionOptions) =>
   make<number>(basic(handleNumber), options);

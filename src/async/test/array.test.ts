@@ -23,21 +23,21 @@ describe("async", () => {
       expect.assertions(1);
       const parser = array(number());
       return expect(parser(123, "some.path")).rejects.toMatchObject(
-        error("Array", "some.path", 123)
+        error("Expect array of type", "some.path", 123)
       );
     });
     test("should throw and print index", () => {
       expect.assertions(1);
       const parser = array(number());
       return expect(parser([1, "2", 3])).rejects.toMatchObject(
-        error("Number", "[1]", "2")
+        error("Expected numeric value", "[1]", "2")
       );
     });
     test("should throw and print index", () => {
       expect.assertions(1);
       const parser = array(number());
       return expect(parser([1, "2", 3], "some.path")).rejects.toMatchObject(
-        error("Number", "some.path[1]", "2")
+        error("Expected numeric value", "some.path[1]", "2")
       );
     });
     test("nullable", () => {

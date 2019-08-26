@@ -16,7 +16,7 @@ const handleOneOf = <T extends Parser<any> | AsyncParser<any>>(
       Promise.reject()
     )
     .catch(() => {
-      throw error("One of", path, payload);
+      throw error("Value not match", path, payload);
     });
 
 const makeOneOf = <T extends Parser<any> | AsyncParser<any>>(
@@ -31,6 +31,7 @@ export default function<V>(
 export default function<T extends Parser<any> | AsyncParser<any>>(
   types: T[],
   options?: ParseFunctionOptions<AsyncReturnType<T>>
-): AsyncParser<AsyncReturnType<T>> {
-  return make<AsyncReturnType<T>>(basic(makeOneOf(types)), options);
+): AsyncParser<AsyncReturnType<T>>;
+export default function(types: any, options?: any): any {
+  return make<any>(basic(makeOneOf(types)), options);
 }

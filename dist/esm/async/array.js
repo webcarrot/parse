@@ -13,7 +13,7 @@ const handleArray = (payload, path, type) => {
         }));
     }
     else {
-        return Promise.reject(error("Array", path, payload));
+        return Promise.reject(error("Expect array of type", path, payload));
     }
 };
 const makeArray = (type) => (payload, path) => handleArray(payload, path, type);

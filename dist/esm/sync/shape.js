@@ -3,7 +3,7 @@ import basic from "./basic";
 import { error, isPlainObject, makePath } from "../utils";
 const handleShape = (payload, path, data) => {
     if (!isPlainObject(payload)) {
-        throw error("Object", path, payload);
+        throw error("Value is not an plain object", path, payload);
     }
     const out = {};
     for (let i in data) {

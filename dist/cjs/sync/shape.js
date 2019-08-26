@@ -5,7 +5,7 @@ var basic_1 = require("./basic");
 var utils_1 = require("../utils");
 var handleShape = function (payload, path, data) {
     if (!utils_1.isPlainObject(payload)) {
-        throw utils_1.error("Object", path, payload);
+        throw utils_1.error("Value is not an plain object", path, payload);
     }
     var out = {};
     for (var i in data) {

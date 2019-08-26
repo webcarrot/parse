@@ -14,7 +14,7 @@ const handleOneOf = <T extends Parser<any>>(
       return types[i](payload, path);
     } catch (_) {}
   }
-  throw error("One of", path, payload);
+  throw error("Value not match", path, payload);
 };
 
 const makeOneOf = <T extends Parser<any>>(
@@ -29,6 +29,7 @@ export default function<V>(
 export default function<V, T extends Parser<V>>(
   types: T[],
   options?: ParseFunctionOptions<ReturnType<T>>
-): Parser<ReturnType<T>> {
-  return make<ReturnType<T>>(basic(makeOneOf(types)), options);
+): Parser<ReturnType<T>>;
+export default function(types: any, options?: any): Parser<any> {
+  return make<any>(basic(makeOneOf(types)), options);
 }
