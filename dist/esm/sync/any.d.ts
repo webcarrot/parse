@@ -1,3 +1,2 @@
-import { ParserFunction } from "./types";
-declare const _default: () => import("./types").Parser<string, any, import("..").ParseFunctionOptions<string>, ParserFunction<string, any, import("..").ParseFunctionOptions<string>>>;
+declare const _default: <T>() => import("./types").Parser<T, any, import("..").ParseFunctionOptions<T>, import("./types").ParserFunction<T, any, import("..").ParseFunctionOptions<T>>>;
 export default _default;

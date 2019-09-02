@@ -1,6 +1,5 @@
-import { ParserFunction } from "./types";
 import make from "./make";
 
-const handleAny: ParserFunction<any> = payload => payload;
+const handleAny = <T>(payload: T): T => payload;
 
-export default () => make<string>(handleAny);
+export default <T>() => make<T, T>(handleAny);
