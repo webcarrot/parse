@@ -11,7 +11,7 @@ describe("async", () => {
         if (payload === magic) {
           return Promise.resolve(date);
         } else {
-          return Promise.reject(error(magic, path, payload));
+          return Promise.reject(error(`${magic}`, path, payload));
         }
       });
 

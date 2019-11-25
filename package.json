@@ -6,7 +6,7 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "scripts": {
-    "clean": "rm -rf ./dist/*",
+    "clean": "rimraf ./dist/*",
     "build:cjs": "tsc --build ./tsconfig.cjs.json && copy-declaration-ts ./src ./dist/cjs",
     "build:esm": "tsc --build ./tsconfig.esm.json && copy-declaration-ts ./src ./dist/esm",
     "build:dev": "tsc --build ./tsconfig.esm.json --watch",
@@ -38,10 +38,11 @@
     "registry": "https://registry.npmjs.org"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
+    "@types/jest": "^24.0.23",
     "@webcarrot/copy-declaration-ts": "^1.0.0",
     "jest": "^24.9.0",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.6.2"
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.2"
   }
 }
