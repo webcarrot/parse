@@ -2,20 +2,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "esnext",
-    "target": "esnext",
+    "target": "es2017",
     "sourceMap": true,
     "declaration": true,
     "noImplicitAny": true,
     "removeComments": true,
-    "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "moduleResolution": "node",
-    "lib": ["es7", "es2017", "dom"],
-    "paths": {
-      "@webcarrot/parse": ["./src/index"],
-      "@webcarrot/parse/*": ["./src/*"]
-    }
+    "lib": ["es7", "es2017", "dom"]
   },
   "include": ["./src/**/*"],
   "exclude": ["./dist/**/*"],

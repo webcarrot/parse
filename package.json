@@ -6,12 +6,12 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "scripts": {
-    "clean": "rimraf ./dist/*",
     "build:cjs": "tsc --build ./tsconfig.cjs.json && copy-declaration-ts ./src ./dist/cjs",
     "build:esm": "tsc --build ./tsconfig.esm.json && copy-declaration-ts ./src ./dist/esm",
-    "build:dev": "tsc --build ./tsconfig.esm.json --watch",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "test": "jest"
+    "build": "rimraf ./dist && npm run build:cjs && npm run build:esm",
+    "prepack": "npm run build",
+    "postpack": "rimraf ./dist",
+    "test": "tsc --noEmit && jest"
   },
   "repository": {
     "type": "git",
@@ -38,11 +38,11 @@
     "registry": "https://registry.npmjs.org"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.23",
+    "@types/jest": "^25.1.5",
     "@webcarrot/copy-declaration-ts": "^1.0.0",
-    "jest": "^24.9.0",
-    "rimraf": "^3.0.0",
-    "ts-jest": "^24.2.0",
-    "typescript": "^3.7.2"
+    "jest": "^25.2.6",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^25.3.0",
+    "typescript": "^3.8.3"
   }
 }

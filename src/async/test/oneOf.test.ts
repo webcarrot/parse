@@ -1,6 +1,6 @@
 import { asyncOneOf as oneOf, asyncShape } from "../";
 import { eq, string, number, shape } from "../../sync";
-import { error } from "@webcarrot/parse/utils";
+import { error } from "../../utils";
 
 describe("async", () => {
   describe("oneOf", () => {

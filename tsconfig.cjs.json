@@ -2,9 +2,7 @@
   "extends": "./tsconfig",
   "compilerOptions": {
     "outDir": "./dist/cjs",
-    "module": "commonjs",
-    "target": "es5",
-    "noEmit": false
+    "module": "commonjs"
   },
   "exclude": ["./dist/**/*", "./src/**/*.test.ts"]
 }

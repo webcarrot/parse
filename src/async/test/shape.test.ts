@@ -1,6 +1,6 @@
 import { asyncArray as array, asyncShape as shape } from "../";
 import { eq, string, number, boolean } from "../../sync";
-import { error } from "@webcarrot/parse/utils";
+import { error } from "../../utils";
 
 describe("async", () => {
   describe("shape", () => {

@@ -2,9 +2,7 @@
   "extends": "./tsconfig",
   "compilerOptions": {
     "outDir": "./dist/esm",
-    "module": "esnext",
-    "target": "es2017",
-    "noEmit": false
+    "module": "esnext"
   },
   "exclude": ["./dist/**/*", "./src/**/*.test.ts"]
 }

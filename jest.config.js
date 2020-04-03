@@ -3,9 +3,6 @@ module.exports = {
   transform: {
     "^.+\\.ts$": "ts-jest"
   },
-  moduleNameMapper: {
-    "@webcarrot/parse/(.*)": "<rootDir>/src/$1"
-  },
   testRegex: "\\.test\\.ts$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   globals: {
