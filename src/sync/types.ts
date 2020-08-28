@@ -10,6 +10,7 @@ export type Parser<
   Output = any,
   Payload = any,
   Options extends ParseFunctionOptions<Output> = ParseFunctionOptions<Output>,
+  // @ts-ignore
   Fn = ParserFunction<Output, Payload, Options>
 > = {
   (payload: Payload, path?: string): Output;
