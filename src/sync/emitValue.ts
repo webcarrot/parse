@@ -1,4 +1,4 @@
-import { ParserFunction } from "./types";
+import type { ParserFunction } from "../types";
 import make from "./make";
 
 const makeEmitValue = <T>(value: T): ParserFunction<T> => () => value;

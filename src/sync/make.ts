@@ -1,5 +1,4 @@
-import { ParseFunctionOptions } from "../types";
-import { ParserFunction, Parser } from "./types";
+import type { ParseFunctionOptions, ParserFunction, Parser } from "../types";
 
 const make = <
   Output,
@@ -16,11 +15,11 @@ const make = <
 ): Parser<Output> => {
   const handler = ((payload: any, path: string = "") =>
     fn(payload, path, options)) as Parser<Output, Payload, Options>;
-  handler.then = onSuccess =>
+  handler.then = (onSuccess) =>
     make((payload, path) =>
       onSuccess(fn(payload, path, options), path)
     ) as typeof onSuccess;
-  handler.catch = onError =>
+  handler.catch = (onError) =>
     make((payload, path) => {
       try {
         return fn(payload, path, options);
@@ -28,7 +27,7 @@ const make = <
         return onError(payload, path);
       }
     }) as typeof onError;
-  handler.finally = onFinnaly =>
+  handler.finally = (onFinnaly) =>
     make((payload, path) => {
       try {
         return onFinnaly(fn(payload, path, options), path);

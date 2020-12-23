@@ -1,6 +1,10 @@
-import { Parser } from "../sync/types";
-import { ParseFunctionOptions } from "../types";
-import { AsyncParserFunction, AsyncParser, AsyncReturnType } from "./types";
+import type {
+  ParseFunctionOptions,
+  Parser,
+  AsyncParserFunction,
+  AsyncParser,
+  AsyncReturnType,
+} from "../types";
 import make from "./make";
 import basic from "./basic";
 import { error, isPlainObject, makePath } from "../utils";
@@ -23,11 +27,11 @@ const handleShape = <
   }
   return keys.reduce(
     (p, key) =>
-      p.then(out => {
+      p.then((out) => {
         try {
           const value = data[key](payload[key], makePath(path, key));
           if (value instanceof Promise) {
-            return value.then(value => {
+            return value.then((value) => {
               if (value !== undefined) {
                 out[key] = value;
               }
@@ -53,21 +57,24 @@ const makeShape = <
 >(
   data: Shape
 ): AsyncParserFunction<ShapeReturnType<Shape>> => (payload, path) =>
-  handleShape(payload, path, data, Object.keys(data) as Array<
-    Extract<keyof Shape, string>
-  >);
+  handleShape(
+    payload,
+    path,
+    data,
+    Object.keys(data) as Array<Extract<keyof Shape, string>>
+  );
 
-export default function<V extends { [key: string]: any }>(
+export default function <V extends { [key: string]: any }>(
   data: { [K in keyof V]: Parser<V[K]> | AsyncParser<V[K]> },
   options?: ParseFunctionOptions<V>
 ): AsyncParser<V>;
-export default function<
+export default function <
   MPO extends Parser<any> | AsyncParser<any>,
   Shape extends { [key: string]: MPO }
 >(
   data: Shape,
   options?: ParseFunctionOptions<ShapeReturnType<Shape>>
 ): AsyncParser<ShapeReturnType<Shape>>;
-export default function(data: any, options?: any): any {
+export default function (data: any, options?: any): any {
   return make(basic(makeShape(data)), options);
 }

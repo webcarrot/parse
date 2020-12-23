@@ -1,5 +1,4 @@
-import { ParseFunctionOptions } from "../types";
-import { ParserFunction, Parser } from "./types";
+import type { ParseFunctionOptions, ParserFunction, Parser } from "../types";
 import make from "./make";
 import basic from "./basic";
 import error from "../utils/error";
@@ -22,14 +21,14 @@ const makeOneOf = <T extends Parser<any>>(
 ): ParserFunction<ReturnType<T>> => (payload, path) =>
   handleOneOf(payload, path, types);
 
-export default function<V>(
+export default function <V>(
   types: Parser<V>[],
   options?: ParseFunctionOptions<V>
 ): Parser<V>;
-export default function<V, T extends Parser<V>>(
+export default function <V, T extends Parser<V>>(
   types: T[],
   options?: ParseFunctionOptions<ReturnType<T>>
 ): Parser<ReturnType<T>>;
-export default function(types: any, options?: any): Parser<any> {
+export default function (types: any, options?: any): Parser<any> {
   return make<any>(basic(makeOneOf(types)), options);
 }

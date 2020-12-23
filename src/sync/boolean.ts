@@ -1,5 +1,4 @@
-import { ParseFunctionOptions } from "../types";
-import { ParserFunction } from "./types";
+import type { ParseFunctionOptions, ParserFunction } from "../types";
 import make from "./make";
 import basic from "./basic";
 import error from "../utils/error";

@@ -1,6 +1,5 @@
+import type { ParseFunctionOptions, AsyncParserFunction } from "../types";
 import error from "../utils/error";
-import { ParseFunctionOptions } from "../types";
-import { AsyncParserFunction } from "./types";
 
 export default <
   Output,

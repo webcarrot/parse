@@ -1,5 +1,4 @@
-import { Parser, ParserFunction } from "../sync/types";
-import { ParseFunctionOptions } from "../types";
+import type { ParseFunctionOptions, Parser, ParserFunction } from "../types";
 
 export type AsyncUnpacked<T> = T extends Promise<infer U> ? U : T;
 export type AsyncReturnType<T extends (...args: any) => any> = AsyncUnpacked<

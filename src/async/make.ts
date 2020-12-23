@@ -1,5 +1,8 @@
-import { ParseFunctionOptions } from "../types";
-import { AsyncParserFunction, AsyncParser } from "./types";
+import type {
+  ParseFunctionOptions,
+  AsyncParserFunction,
+  AsyncParser,
+} from "../types";
 
 const make = <
   Output,
@@ -16,18 +19,18 @@ const make = <
 ): AsyncParser<Output> => {
   const handler = ((payload: any, path: string = "") =>
     fn(payload, path, options)) as AsyncParser<Output, Payload, Options>;
-  handler.then = onSuccess =>
+  handler.then = (onSuccess) =>
     make((payload, path) =>
-      fn(payload, path, options).then(out => onSuccess(out, path))
+      fn(payload, path, options).then((out) => onSuccess(out, path))
     ) as typeof onSuccess;
-  handler.catch = onError =>
+  handler.catch = (onError) =>
     make((payload, path) =>
       fn(payload, path, options).catch(() => onError(payload, path))
     ) as typeof onError;
-  handler.finally = onFinnaly =>
+  handler.finally = (onFinnaly) =>
     make((payload, path) =>
       fn(payload, path, options).then(
-        output => onFinnaly(output, path),
+        (output) => onFinnaly(output, path),
         () => onFinnaly(payload, path)
       )
     ) as typeof onFinnaly;

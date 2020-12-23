@@ -1,5 +1,4 @@
-import { ParseFunctionOptions } from "../types";
-import { ParserFunction } from "./types";
+import type { ParseFunctionOptions, ParserFunction } from "../types";
 import error from "../utils/error";
 
 export default <

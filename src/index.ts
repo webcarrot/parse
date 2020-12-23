@@ -1,4 +1,12 @@
 export * from "./async";
 export * from "./sync";
 export * from "./utils";
-export * from "./types";
+export type {
+  AsyncParser,
+  AsyncParserFunction,
+  AsyncReturnType,
+  AsyncUnpacked,
+  ParseFunctionOptions,
+  Parser,
+  ParserFunction,
+} from "./types";

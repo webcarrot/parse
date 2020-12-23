@@ -1,6 +1,9 @@
-import { Parser } from "../sync/types";
-import { ParseFunctionOptions } from "../types";
-import { AsyncParserFunction, AsyncParser } from "./types";
+import type {
+  Parser,
+  ParseFunctionOptions,
+  AsyncParserFunction,
+  AsyncParser,
+} from "../types";
 import make from "./make";
 import basic from "./basic";
 import { error, makePath } from "../utils";
