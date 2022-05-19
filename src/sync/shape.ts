@@ -25,10 +25,12 @@ const handleShape = <T extends Parser<any>, S extends { [key: string]: T }>(
   return out;
 };
 
-const makeShape = <T extends Parser<any>, S extends { [key: string]: T }>(
-  data: S
-): ParserFunction<ShapeReturnType<S>> => (payload, path) =>
-  handleShape(payload, path, data);
+const makeShape =
+  <T extends Parser<any>, S extends { [key: string]: T }>(
+    data: S
+  ): ParserFunction<ShapeReturnType<S>> =>
+  (payload, path) =>
+    handleShape(payload, path, data);
 
 export default function <V extends { [key: string]: any }>(
   data: { [K in keyof V]: Parser<V[K]> },

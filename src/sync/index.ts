@@ -10,3 +10,4 @@ export { default as number } from "./number";
 export { default as oneOf } from "./oneOf";
 export { default as shape } from "./shape";
 export { default as string } from "./string";
+export { default as switchOnField } from "./switchOnField";

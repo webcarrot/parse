@@ -11,8 +11,10 @@ const handleEq = <T>(payload: any, path: string, value: T) => {
   }
 };
 
-const makeEq = <T>(value: T): ParserFunction<T> => (payload, path) =>
-  handleEq(payload, path, value);
+const makeEq =
+  <T>(value: T): ParserFunction<T> =>
+  (payload, path) =>
+    handleEq(payload, path, value);
 
 export default <T>(value: T, options?: ParseFunctionOptions<T>) =>
   make<T>(basic(makeEq(value)), options);

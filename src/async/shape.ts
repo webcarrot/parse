@@ -51,18 +51,20 @@ const handleShape = <
   );
 };
 
-const makeShape = <
-  MPO extends Parser<any> | AsyncParser<any>,
-  Shape extends { [key: string]: MPO }
->(
-  data: Shape
-): AsyncParserFunction<ShapeReturnType<Shape>> => (payload, path) =>
-  handleShape(
-    payload,
-    path,
-    data,
-    Object.keys(data) as Array<Extract<keyof Shape, string>>
-  );
+const makeShape =
+  <
+    MPO extends Parser<any> | AsyncParser<any>,
+    Shape extends { [key: string]: MPO }
+  >(
+    data: Shape
+  ): AsyncParserFunction<ShapeReturnType<Shape>> =>
+  (payload, path) =>
+    handleShape(
+      payload,
+      path,
+      data,
+      Object.keys(data) as Array<Extract<keyof Shape, string>>
+    );
 
 export default function <V extends { [key: string]: any }>(
   data: { [K in keyof V]: Parser<V[K]> | AsyncParser<V[K]> },

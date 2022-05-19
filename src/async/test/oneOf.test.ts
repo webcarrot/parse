@@ -4,86 +4,84 @@ import { error } from "../../utils";
 
 describe("async", () => {
   describe("oneOf", () => {
-    test("A", () => {
-      expect.assertions(1);
+    test("A", async () => {
       const base = {
         query: shape(
           {
-            q: string({ optional: true })
+            q: string({ optional: true }),
           },
           { optional: true }
         ),
         params: shape(
           {
-            id: string({ optional: true })
+            id: string({ optional: true }),
           },
           { optional: true }
-        )
+        ),
       };
       const parser = oneOf([
         shape({
           method: eq("GET"),
-          ...base
+          ...base,
         }),
         asyncShape({
           method: eq("POST"),
           ...base,
           body: asyncShape({
-            id: number({ convert: true })
-          })
-        })
+            id: number({ convert: true }),
+          }),
+        }),
       ]);
-      return expect(
+      await expect(
         parser({
           method: "POST",
           body: {
             id: "12",
-            unknown: 2
-          }
+            unknown: 2,
+          },
         })
       ).resolves.toMatchObject({
         method: "POST",
         body: {
-          id: 12
-        }
+          id: 12,
+        },
       });
     });
-    test("should throw", () => {
-      expect.assertions(1);
+    test("should throw", async () => {
       const base = {
         query: asyncShape(
           {
-            q: string({ optional: true })
+            q: string({ optional: true }),
           },
           { optional: true }
         ),
         params: asyncShape(
           {
-            id: string({ optional: true })
+            id: string({ optional: true }),
           },
           { optional: true }
-        )
+        ),
       };
       const parser = oneOf([
         asyncShape({
           method: eq("GET"),
-          ...base
+          ...base,
         }),
         asyncShape({
           method: eq("POST"),
           ...base,
           body: asyncShape({
-            id: string({ nullable: true })
-          })
-        })
+            id: string({ nullable: true }),
+          }),
+        }),
       ]);
-      return expect(
+      await expect(
         parser({
-          method: "POST"
+          method: "POST",
         })
       ).rejects.toMatchObject(
         error("Value not match", "", {
-          method: "POST"
+          method: "POST",
         })
       );
     });

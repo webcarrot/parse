@@ -28,10 +28,10 @@ const handleArray = <T extends Parser<any> | AsyncParser<any>>(
   }
 };
 
-const makeArray = <T>(
-  type: Parser<T> | AsyncParser<T>
-): AsyncParserFunction<Array<T>> => (payload, path) =>
-  handleArray(payload, path, type);
+const makeArray =
+  <T>(type: Parser<T> | AsyncParser<T>): AsyncParserFunction<Array<T>> =>
+  (payload, path) =>
+    handleArray(payload, path, type);
 
 export default <T>(
   type: Parser<T> | AsyncParser<T>,

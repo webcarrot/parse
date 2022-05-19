@@ -1,8 +1,10 @@
-import { oneOf, shape, eq, string, number } from "../";
+import { asyncSwitchOnField as switchOnField, asyncShape } from "..";
+import { eq, string, number, shape } from "../../sync";
+import { error } from "../../utils";
 
-describe("sync", () => {
-  describe("oneOf", () => {
-    test("A", () => {
+describe("async", () => {
+  describe("switchOnField", () => {
+    test("A", async () => {
       const base = {
         query: shape(
           {
@@ -17,21 +19,23 @@ describe("sync", () => {
           { optional: true }
         ),
       };
-      const parser = oneOf([
-        shape({
-          method: eq<"GET">("GET"),
+      const parser = switchOnField<
+        { method: "GET" | "POST"; query: any },
+        "method"
+      >("method", {
+        GET: shape({
+          method: eq("GET"),
           ...base,
         }),
-        shape({
-          method: eq<"POST">("POST"),
+        POST: asyncShape({
+          method: eq("POST"),
           ...base,
-          body: shape({
+          body: asyncShape({
             id: number({ convert: true }),
           }),
         }),
-      ]);
-
-      expect(
+      });
+      await expect(
         parser({
           method: "POST",
           body: {
@@ -39,47 +43,46 @@ describe("sync", () => {
             unknown: 2,
           },
         })
-      ).toMatchObject({
+      ).resolves.toMatchObject({
         method: "POST",
         body: {
           id: 12,
         },
       });
     });
-    test("should throw", () => {
+    test("should throw", async () => {
       const base = {
-        query: shape(
+        query: asyncShape(
           {
             q: string({ optional: true }),
           },
           { optional: true }
         ),
-        params: shape(
+        params: asyncShape(
           {
             id: string({ optional: true }),
           },
           { optional: true }
         ),
       };
-
-      const parser = oneOf([
-        shape({
-          method: eq<"GET">("GET"),
+      const parser = switchOnField("method", {
+        GET: asyncShape({
+          method: eq("GET"),
           ...base,
         }),
-        shape({
-          method: eq<"POST">("POST"),
+        POST: asyncShape({
+          method: eq("POST"),
           ...base,
-          body: shape({
+          body: asyncShape({
             id: string({ nullable: true }),
           }),
         }),
-      ]);
-      expect(() => {
+      });
+      await expect(
         parser({
           method: "POST",
-        });
-      }).toThrow();
+        })
+      ).rejects.toMatchObject(error("Value is required", ".body", undefined));
     });
   });
 });
