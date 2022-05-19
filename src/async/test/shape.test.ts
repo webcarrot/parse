@@ -4,8 +4,7 @@ import { error } from "../../utils";
 
 describe("async", () => {
   describe("shape", () => {
-    test("A", () => {
-      expect.assertions(1);
+    test("A", async () => {
       const parser = shape({
         eq: eq("eq"),
         array: array(
@@ -14,11 +13,11 @@ describe("async", () => {
             number: number({ convert: true }),
             boolean: boolean({ convert: true }),
             ostring: string({ optional: true }),
-            nstring: string({ nullable: true })
+            nstring: string({ nullable: true }),
           })
-        )
+        ),
       });
-      return expect(
+      await expect(
         parser({
           eq: "eq",
           array: [
@@ -27,15 +26,15 @@ describe("async", () => {
               number: 1,
               boolean: true,
               ostring: "ostring",
-              nstring: "nstring"
+              nstring: "nstring",
             },
             {
               string: "b",
               number: "-1",
               boolean: 0,
-              nstring: null
-            }
-          ]
+              nstring: null,
+            },
+          ],
         })
       ).resolves.toMatchObject({
         eq: "eq",
@@ -45,43 +44,43 @@ describe("async", () => {
             number: 1,
             boolean: true,
             ostring: "ostring",
-            nstring: "nstring"
+            nstring: "nstring",
           },
           {
             string: "b",
             number: -1,
             boolean: false,
-            nstring: null
-          }
-        ]
+            nstring: null,
+          },
+        ],
       });
     });
-    test("should throw", () => {
+    test("should throw", async () => {
       const parser = shape({
         eq: eq("eq"),
         array: array(
           shape({
             string: string(),
             number: number(),
-            boolean: boolean()
+            boolean: boolean(),
           })
-        )
+        ),
       });
-      return expect(
+      await expect(
         parser({
           eq: "ss",
           array: [
             {
               string: "2",
               number: 1,
-              boolean: true
+              boolean: true,
             },
             {
               string: "b",
               number: -1,
-              boolean: false
-            }
-          ]
+              boolean: false,
+            },
+          ],
         })
       ).rejects.toMatchObject(error("Expected value equal to eq", ".eq", "ss"));
     });

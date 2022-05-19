@@ -23,6 +23,14 @@ describe("sync", () => {
         parser([1, "2", 3]);
       }).toThrow(error("Expected numeric value", "[1]", "2"));
     });
+    test("expect 2 elements array", () => {
+      const parser = array(number(), { minLength: 2, maxLength: 2 });
+      expect(() => {
+        parser([1, 2, 3], "some.path");
+      }).toThrow(
+        error("Expected array of length lower equal 2", "some.path", "[1,2,3]")
+      );
+    });
     test("should throw and print index", () => {
       const parser = array(number());
       expect(() => {

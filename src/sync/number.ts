@@ -22,7 +22,8 @@ const handleNumber: ParserFunction<number, any, NumberParseFunctionOptions> = (
     /^-?\d+(\.\d+)?$/.test(payload)
   ) {
     value = parseFloat(payload);
-  } else {
+  }
+  if (isNaN(value)) {
     throw error("Expected numeric value", path, payload);
   }
   if (options.min !== undefined && options.min > value) {

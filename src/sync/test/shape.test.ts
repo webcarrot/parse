@@ -11,9 +11,9 @@ describe("sync", () => {
             number: number({ convert: true }),
             boolean: boolean({ convert: true }),
             ostring: string({ optional: true }),
-            nstring: string({ nullable: true })
+            nstring: string({ nullable: true }),
           })
-        )
+        ),
       });
       expect(
         parser({
@@ -24,15 +24,15 @@ describe("sync", () => {
               number: 1,
               boolean: true,
               ostring: "ostring",
-              nstring: "nstring"
+              nstring: "nstring",
             },
             {
               string: "b",
               number: "-1",
               boolean: 0,
-              nstring: null
-            }
-          ]
+              nstring: null,
+            },
+          ],
         })
       ).toMatchObject({
         eq: "eq",
@@ -42,15 +42,15 @@ describe("sync", () => {
             number: 1,
             boolean: true,
             ostring: "ostring",
-            nstring: "nstring"
+            nstring: "nstring",
           },
           {
             string: "b",
             number: -1,
             boolean: false,
-            nstring: null
-          }
-        ]
+            nstring: null,
+          },
+        ],
       });
     });
     test("should throw", () => {
@@ -60,9 +60,9 @@ describe("sync", () => {
           shape({
             string: string(),
             number: number(),
-            boolean: boolean()
+            boolean: boolean(),
           })
-        )
+        ),
       });
       expect(() => {
         parser({
@@ -71,14 +71,14 @@ describe("sync", () => {
             {
               string: "2",
               number: 1,
-              boolean: true
+              boolean: true,
             },
             {
               string: "b",
               number: -1,
-              boolean: false
-            }
-          ]
+              boolean: false,
+            },
+          ],
         });
       }).toThrow();
     });

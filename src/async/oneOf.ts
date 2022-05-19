@@ -23,10 +23,12 @@ const handleOneOf = <T extends Parser<any> | AsyncParser<any>>(
       throw error("Value not match", path, payload);
     });
 
-const makeOneOf = <T extends Parser<any> | AsyncParser<any>>(
-  types: T[]
-): AsyncParserFunction<AsyncReturnType<T>> => (payload, path) =>
-  handleOneOf(payload, path, types);
+const makeOneOf =
+  <T extends Parser<any> | AsyncParser<any>>(
+    types: T[]
+  ): AsyncParserFunction<AsyncReturnType<T>> =>
+  (payload, path) =>
+    handleOneOf(payload, path, types);
 
 export default function <V>(
   types: Array<Parser<V> | AsyncParser<V>>,

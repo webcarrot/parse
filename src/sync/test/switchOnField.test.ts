@@ -1,7 +1,7 @@
-import { oneOf, shape, eq, string, number } from "../";
+import { switchOnField, shape, eq, string, number } from "..";
 
 describe("sync", () => {
-  describe("oneOf", () => {
+  describe("switchOnField", () => {
     test("A", () => {
       const base = {
         query: shape(
@@ -17,19 +17,22 @@ describe("sync", () => {
           { optional: true }
         ),
       };
-      const parser = oneOf([
-        shape({
+      const parser = switchOnField<
+        { method: "GET" | "POST"; query: any },
+        "method"
+      >("method", {
+        GET: shape({
           method: eq<"GET">("GET"),
           ...base,
         }),
-        shape({
+        POST: shape({
           method: eq<"POST">("POST"),
           ...base,
           body: shape({
             id: number({ convert: true }),
           }),
         }),
-      ]);
+      });
 
       expect(
         parser({
@@ -62,19 +65,19 @@ describe("sync", () => {
         ),
       };
 
-      const parser = oneOf([
-        shape({
-          method: eq<"GET">("GET"),
+      const parser = switchOnField("method", {
+        xxx: shape({
+          method: eq<"xxx">("xxx"),
           ...base,
         }),
-        shape({
+        POST: shape({
           method: eq<"POST">("POST"),
           ...base,
           body: shape({
             id: string({ nullable: true }),
           }),
         }),
-      ]);
+      });
       expect(() => {
         parser({
           method: "POST",

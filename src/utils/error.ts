@@ -12,7 +12,7 @@ class ParseError extends TypeError {
     return {
       message: this.message,
       path: this.path,
-      value: this.value
+      value: this.value,
     };
   }
 }
