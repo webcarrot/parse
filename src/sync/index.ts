@@ -5,6 +5,7 @@ export { default as boolean } from "./boolean";
 export { default as emitError } from "./emitError";
 export { default as emitValue } from "./emitValue";
 export { default as eq } from "./eq";
+export { default as lazy } from "./lazy";
 export { default as make } from "./make";
 export { default as number } from "./number";
 export { default as oneOf } from "./oneOf";
