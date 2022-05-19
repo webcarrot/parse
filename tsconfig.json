@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "esnext",
-    "target": "es2017",
+    "target": "ES2022",
     "sourceMap": true,
     "declaration": true,
     "noImplicitAny": true,
