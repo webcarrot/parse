@@ -3,14 +3,25 @@
   "name": "@webcarrot/parse",
   "version": "1.4.1",
   "description": "Typed parser",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "build:cjs": "tsc --build ./tsconfig.cjs.json && copy-declaration-ts ./src ./dist/cjs",
-    "build:esm": "tsc --build ./tsconfig.esm.json && copy-declaration-ts ./src ./dist/esm",
-    "build": "rimraf ./dist && npm run build:cjs && npm run build:esm",
+    "clean": "rm -rf ./dist",
     "prepack": "npm run build",
-    "postpack": "rimraf ./dist",
+    "postpack": "npm run clean",
+    "build:ts": "rollup -c ./rollup.config.mjs",
+    "build:cjs": "rollup --format=cjs --file=dist/index.cjs -p typescript -m -- src/index.ts",
+    "build:mjs": "rollup --format=es --file=dist/index.mjs -p typescript -m -- src/index.ts",
+    "build": "npm run clean && npm run build:ts && npm run build:cjs && npm run build:mjs",
     "test": "tsc --noEmit && jest"
   },
   "repository": {
@@ -38,11 +49,14 @@
     "registry": "https://registry.npmjs.org"
   },
   "devDependencies": {
-    "@types/jest": "^27.5.1",
-    "@webcarrot/copy-declaration-ts": "^1.0.0",
-    "jest": "^28.1.0",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^28.0.2",
-    "typescript": "^4.6.4"
+    "@rollup/plugin-typescript": "^8.5.0",
+    "@types/jest": "^29.1.1",
+    "jest": "^29.1.2",
+    "rollup": "^2.79.1",
+    "rollup-plugin-dts": "^4.2.2",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.4"
   }
 }

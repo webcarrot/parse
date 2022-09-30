@@ -10,7 +10,7 @@ export default <
   ): typeof fn =>
   (payload, path, options) => {
     if (options.nullable && payload === null) {
-      return Promise.resolve(null);
+      return Promise.resolve(null as any);
     }
     if (payload === undefined || payload === null) {
       if ("default" in options) {
